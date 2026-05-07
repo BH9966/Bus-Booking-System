@@ -26,8 +26,8 @@ return new class extends Migration
             $table->enum('payment_status', ['unpaid','paid','refunded'])->default('unpaid');
             $table->enum('booking_source', ['web','mobile','admin'])->default('web');
             $table->string('qr_code')->nullable();
-            $table->timestamp('booked_at')->nullable();
-            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('booked_at')->useCurrent();
+            $table->timestamp('cancelled_at')->useCurrent();
             $table->timestamps();
         });
     }

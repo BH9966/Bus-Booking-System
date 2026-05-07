@@ -22,6 +22,9 @@ return new class extends Migration
             $table->decimal('distance_km', 10, 2);
             $table->string('estimated_duration')->nullable();
             $table->enum('status', ['active','inactive'])->default('active');
+             $table->foreignId('created_by')
+              ->constrained('users')
+              ->cascadeOnDelete();
             $table->timestamps();
         });
     }

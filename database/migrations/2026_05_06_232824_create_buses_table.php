@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('operator_id')
-                ->constrained()
-                ->cascadeOnDelete();
+           $table->foreignId('company_id')
+        ->constrained()
+        ->cascadeOnDelete();
             $table->string('bus_number')->unique();
             $table->string('plate_number')->unique();
             $table->string('model')->nullable();
@@ -23,6 +23,9 @@ return new class extends Migration
             $table->integer('capacity');
             $table->enum('bus_status', ['active','maintenance','inactive'])->default('active');
             $table->string('image')->nullable();
+            $table->foreignId('created_by')
+              ->constrained('users')
+              ->cascadeOnDelete();
             $table->timestamps();
         });
     }

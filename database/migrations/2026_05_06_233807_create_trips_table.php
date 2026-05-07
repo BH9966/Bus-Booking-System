@@ -31,6 +31,9 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('status', ['scheduled','cancelled','completed'])->default('scheduled');
             $table->enum('bus_status', ['waiting','boarding','departed','arrived','delayed'])->default('waiting');
+             $table->foreignId('created_by')
+            ->constrained('users')
+            ->cascadeOnDelete();
             $table->timestamps();
         });
     }

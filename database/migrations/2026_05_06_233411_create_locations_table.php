@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('city');
             $table->enum('status', ['active','inactive'])->default('active');
+            $table->foreignId('created_by')
+            ->constrained('users')
+            ->cascadeOnDelete();
             $table->timestamps();
         });
     }
