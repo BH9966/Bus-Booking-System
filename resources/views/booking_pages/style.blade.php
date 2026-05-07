@@ -1,43 +1,85 @@
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#1d4ed8',
+          700: '#1e40af',
+          800: '#1e3a8a',
+          900: '#0f172a',
+        },
+        gold: {
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+        }
+      }
+    }
+  }
+}
+</script>
 <style>
-  * { font-family: 'Plus Jakarta Sans', sans-serif; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
   .font-display { font-family: 'Syne', sans-serif; }
+
+  /* Carousel */
+  .carousel-inner { display: flex; transition: transform 0.6s cubic-bezier(.4,0,.2,1); }
+  .carousel-slide { min-width: 100%; }
+
+  /* Seat styles */
+  .seat { width: 36px; height: 36px; border-radius: 8px; border: 2px solid; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; transition: all 0.15s; }
+  .seat-available { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
+  .seat-available:hover { background: #1d4ed8; color: white; transform: scale(1.08); }
+  .seat-occupied { border-color: #6b7280; background: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+  .seat-selected { border-color: #16a34a; background: #16a34a; color: white; transform: scale(1.08); }
+
+  /* Page transitions */
   .page { display: none; }
   .page.active { display: block; }
-  .carousel-track { transition: transform 0.6s cubic-bezier(.77,0,.18,1); }
-  .seat-btn { transition: all 0.18s; }
-  .seat-btn:hover:not(.occupied) { transform: scale(1.12); }
+
+  /* Gradient hero */
+  /* .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%); } */
   .hero-gradient {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a4a3a 100%);
+    background-image: url('/image/Luxury-buses-from-Arusha-to-Dar-es-salaam.jpg');
+  background-size: 100% auto; /* Width is 100%, height scales automatically */
+  background-repeat: no-repeat;
+  
+  width: 100%;
+  aspect-ratio: 3 / 1;
+    
   }
-  .glass {
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.12);
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #1d4ed8; border-radius: 3px; }
+
+  /* Bus card hover */
+  .bus-card:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(29,78,216,0.12); }
+
+  /* Animated badge */
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
   }
-  .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
-  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
-  .btn-primary {
-    background: linear-gradient(135deg, #059669, #10b981);
-    transition: all 0.2s;
+  .live-badge::before {
+    content: ''; position: absolute; inset: 0; border-radius: 9999px;
+    background: #16a34a; animation: pulse-ring 1.5s infinite;
   }
-  .btn-primary:hover { background: linear-gradient(135deg, #047857, #059669); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(5,150,105,0.35); }
-  .nav-link { position: relative; }
-  .nav-link::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#10b981; transition: width 0.25s; border-radius:2px; }
-  .nav-link:hover::after { width:100%; }
-  .fade-in { animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-  .search-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); }
-  .ticket-card { border-left: 4px solid #10b981; }
-  .selected-seat { background: linear-gradient(135deg, #059669, #10b981) !important; color: white !important; border-color: #059669 !important; }
-  .seat-legend-dot { width: 20px; height: 20px; border-radius: 6px; display: inline-block; }
-  input, select { outline: none; }
-  input:focus, select:focus { ring: 0; }
-  .step-active { background: linear-gradient(135deg, #059669, #10b981); color: white; }
-  .step-done { background: #059669; color: white; }
-  .route-card { border-top: 3px solid; }
-  .zigzag {
-    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
-    padding-bottom: 80px;
-  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Form input focus */
+  input:focus, select:focus { outline: none; border-color: #1d4ed8 !important; box-shadow: 0 0 0 3px rgba(29,78,216,0.15); }
 </style>
