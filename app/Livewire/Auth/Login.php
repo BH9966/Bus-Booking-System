@@ -1,9 +1,10 @@
 <?php
-
 namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
 class Login extends Component
 {
     public string $email = '';
@@ -14,47 +15,62 @@ class Login extends Component
         'password' => 'required|min:6',
     ];
 
-    public function login(): mixed
+    protected array $messages = [
+        'password.min' => 'Password must be at least 6 characters',
+    ];
+
+    public function login()
     {
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
 
-        if (
-            Auth::attempt(
-                [
-                    'email' => $this->email,
-                    'password' => $this->password,
-                    'status' => 'active',
-                ],
-                $this->remember
-            )
-        ) {
-            request()->session()->regenerate();
+            $this->dispatch(
+                'swal',
+                icon: 'error',
+                title: $e->validator->errors()->first()
+            );
 
-            $user = Auth::user();
-
-          
-            $user->last_login_at = now();
-            $user->save();
-
-            return match ($user->role) {
-                'admin'    => redirect()->route('admin.dashboard'),
-                'operator' => redirect()->route('operator.dashboard'),
-                default    => redirect()->route('customer.dashboard'),
-            };
+            return;
         }
 
-        // Login failed
-        $this->dispatchBrowserEvent('swal:error', [
-            'message' => 'Invalid credentials or your account is blocked'
-        ]);
+        if (! Auth::attempt([
+            'email' => $this->email,
+            'password' => $this->password,
+        ])) {
 
-        return null;
+            $this->dispatch(
+                'swal',
+                icon: 'error',
+                title: 'Invalid email or password'
+            );
+
+            return;
+        }
+
+        if (Auth::user()->status !== 'active') {
+            Auth::logout();
+
+            $this->dispatch(
+                'swal',
+                icon: 'error',
+                title: 'Your account is blocked'
+            );
+
+            return;
+        }
+
+        request()->session()->regenerate();
+
+        return match (Auth::user()->role) {
+            'SuperAdmin'    => redirect()->route('dashboard_admin'),
+            'operator' => redirect()->route('dashboard_operator'),
+            default    => redirect()->route('dashboard_customer'),
+        };
     }
 
     public function render()
     {
-        return view('livewire.auth.login')
-            ->extends('layouts.app')
-            ->section('content');
+        return view('livewire.auth.login');
     }
 }

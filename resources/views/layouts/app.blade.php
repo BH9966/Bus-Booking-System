@@ -6,10 +6,12 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 {{--  tailwind start --}}
 
 <title>SwiftRide Login</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
   * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
@@ -233,5 +235,29 @@
             @yield('content')
         </main>
     </div>
+    <script>
+    window.addEventListener('error_message', event => {
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: event.detail.message,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+
+    @if (session('error'))
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2500
+        });
+    @endif
+
+});
+</script>
 </body>
 </html>

@@ -1,254 +1,327 @@
 @extends('admin.layout')
 @section('content')
-     <div class="main-content-inner">
-
-                            <div class="main-content-wrap">
-                                <div class="tf-section-2 mb-30">
-                                    <div class="flex gap20 flex-wrap-mobile">
-                                        <div class="w-half">
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-shopping-bag"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Total Orders</div>
-                                                            <h4>3</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-dollar-sign"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Total Amount</div>
-                                                            <h4>481.34</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-shopping-bag"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Pending Orders</div>
-                                                            <h4>3</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-dollar-sign"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Pending Orders Amount</div>
-                                                            <h4>481.34</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="w-half">
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-shopping-bag"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Delivered Orders</div>
-                                                            <h4>0</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-dollar-sign"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Delivered Orders Amount</div>
-                                                            <h4>0.00</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default mb-20">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-shopping-bag"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Canceled Orders</div>
-                                                            <h4>0</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="wg-chart-default">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap14">
-                                                        <div class="image ic-bg">
-                                                            <i class="icon-dollar-sign"></i>
-                                                        </div>
-                                                        <div>
-                                                            <div class="body-text mb-2">Canceled Orders Amount</div>
-                                                            <h4>0.00</h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="wg-box">
-                                        <div class="flex items-center justify-between">
-                                            <h5>Earnings revenue</h5>
-                                            <div class="dropdown default">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <span class="icon-more"><i class="icon-more-horizontal"></i></span>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <a href="javascript:void(0);">This Week</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:void(0);">Last Week</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap gap40">
-                                            <div>
-                                                <div class="mb-2">
-                                                    <div class="block-legend">
-                                                        <div class="dot t1"></div>
-                                                        <div class="text-tiny">Revenue</div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap10">
-                                                    <h4>$37,802</h4>
-                                                    <div class="box-icon-trending up">
-                                                        <i class="icon-trending-up"></i>
-                                                        <div class="body-title number">0.56%</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="mb-2">
-                                                    <div class="block-legend">
-                                                        <div class="dot t2"></div>
-                                                        <div class="text-tiny">Order</div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap10">
-                                                    <h4>$28,305</h4>
-                                                    <div class="box-icon-trending up">
-                                                        <i class="icon-trending-up"></i>
-                                                        <div class="body-title number">0.56%</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="line-chart-8"></div>
-                                    </div>
-
-                                </div>
-                                <div class="tf-section mb-30">
-
-                                    <div class="wg-box">
-                                        <div class="flex items-center justify-between">
-                                            <h5>Recent orders</h5>
-                                            <div class="dropdown default">
-                                                <a class="btn btn-secondary dropdown-toggle" href="#">
-                                                    <span class="view-all">View all</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="wg-table table-all-user">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 80px">OrderNo</th>
-                                                            <th>Name</th>
-                                                            <th class="text-center">Phone</th>
-                                                            <th class="text-center">Subtotal</th>
-                                                            <th class="text-center">Tax</th>
-                                                            <th class="text-center">Total</th>
-
-                                                            <th class="text-center">Status</th>
-                                                            <th class="text-center">Order Date</th>
-                                                            <th class="text-center">Total Items</th>
-                                                            <th class="text-center">Delivered On</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="text-center">1</td>
-                                                            <td class="text-center">Divyansh Kumar</td>
-                                                            <td class="text-center">1234567891</td>
-                                                            <td class="text-center">$172.00</td>
-                                                            <td class="text-center">$36.12</td>
-                                                            <td class="text-center">$208.12</td>
-
-                                                            <td class="text-center">ordered</td>
-                                                            <td class="text-center">2024-07-11 00:54:14</td>
-                                                            <td class="text-center">2</td>
-                                                            <td></td>
-                                                            <td class="text-center">
-                                                                <a href="#">
-                                                                    <div class="list-icon-function view-icon">
-                                                                        <div class="item eye">
-                                                                            <i class="icon-eye"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6 col-xl-3 mb-4">
+                  <div class="card shadow bg-primary text-white border-0">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-3 text-center">
+                          <span class="circle circle-sm bg-primary-light">
+                            <i class="fe fe-16 fe-shopping-bag text-white mb-0"></i>
+                          </span>
                         </div>
+                        <div class="col pr-0">
+                          <p class="small text-muted mb-0">Monthly Sales</p>
+                          <span class="h3 mb-0 text-white">$1250</span>
+                          <span class="small text-muted">+5.5%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                  <div class="card shadow border-0">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-3 text-center">
+                          <span class="circle circle-sm bg-primary">
+                            <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
+                          </span>
+                        </div>
+                        <div class="col pr-0">
+                          <p class="small text-muted mb-0">Orders</p>
+                          <span class="h3 mb-0">1,869</span>
+                          <span class="small text-success">+16.5%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                  <div class="card shadow border-0">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-3 text-center">
+                          <span class="circle circle-sm bg-primary">
+                            <i class="fe fe-16 fe-filter text-white mb-0"></i>
+                          </span>
+                        </div>
+                        <div class="col">
+                          <p class="small text-muted mb-0">Conversion</p>
+                          <div class="row align-items-center no-gutters">
+                            <div class="col-auto">
+                              <span class="h3 mr-2 mb-0"> 86.6% </span>
+                            </div>
+                            <div class="col-md-12 col-lg">
+                              <div class="progress progress-sm mt-2" style="height:3px">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 87%" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                  <div class="card shadow border-0">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-3 text-center">
+                          <span class="circle circle-sm bg-primary">
+                            <i class="fe fe-16 fe-activity text-white mb-0"></i>
+                          </span>
+                        </div>
+                        <div class="col">
+                          <p class="small text-muted mb-0">AVG Orders</p>
+                          <span class="h3 mb-0">$80</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- end section -->
+              <div class="row align-items-center my-2">
+                <div class="col-auto ml-auto">
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <label for="reportrange" class="sr-only">Date Ranges</label>
+                      <div id="reportrange" class="px-2 py-2 text-muted">
+                        <i class="fe fe-calendar fe-16 mx-2"></i>
+                        <span class="small"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-12 text-muted"></span></button>
+                      <button type="button" class="btn btn-sm"><span class="fe fe-filter fe-12 text-muted"></span></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- charts-->
+              <div class="row my-4">
+                <div class="col-md-12">
+                  <div class="chart-box">
+                    <div id="columnChart"></div>
+                  </div>
+                </div> <!-- .col -->
+              </div> <!-- end section -->
+              <!-- info small box -->
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="card shadow mb-4">
+                    <div class="card-body">
+                      <div class="chart-widget">
+                        <div id="gradientRadial"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 text-center">
+                          <p class="text-muted mb-0">Yesterday</p>
+                          <h4 class="mb-1">126</h4>
+                          <p class="text-muted mb-2">+5.5%</p>
+                        </div>
+                        <div class="col-6 text-center">
+                          <p class="text-muted mb-0">Today</p>
+                          <h4 class="mb-1">86</h4>
+                          <p class="text-muted mb-2">-5.5%</p>
+                        </div>
+                      </div>
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </div> <!-- .col -->
+                <div class="col-md-4">
+                  <div class="card shadow mb-4">
+                    <div class="card-body">
+                      <div class="chart-widget mb-2">
+                        <div id="radialbar"></div>
+                      </div>
+                      <div class="row items-align-center">
+                        <div class="col-4 text-center">
+                          <p class="text-muted mb-1">Cost</p>
+                          <h6 class="mb-1">$1,823</h6>
+                          <p class="text-muted mb-0">+12%</p>
+                        </div>
+                        <div class="col-4 text-center">
+                          <p class="text-muted mb-1">Revenue</p>
+                          <h6 class="mb-1">$6,830</h6>
+                          <p class="text-muted mb-0">+8%</p>
+                        </div>
+                        <div class="col-4 text-center">
+                          <p class="text-muted mb-1">Earning</p>
+                          <h6 class="mb-1">$4,830</h6>
+                          <p class="text-muted mb-0">+8%</p>
+                        </div>
+                      </div>
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </div> <!-- .col -->
+                <div class="col-md-4">
+                  <div class="card shadow mb-4">
+                    <div class="card-body">
+                      <p class="mb-0"><strong class="mb-0 text-uppercase text-muted">Today</strong></p>
+                      <h3 class="mb-0">$2,562.30</h3>
+                      <p class="text-muted">+18.9% Last week</p>
+                      <div class="chart-box mt-n5">
+                        <div id="lineChartWidget"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4 text-center mt-3">
+                          <p class="mb-1 text-muted">Completions</p>
+                          <h6 class="mb-0">26</h6>
+                          <span class="small text-muted">+20%</span>
+                          <span class="fe fe-arrow-up text-success fe-12"></span>
+                        </div>
+                        <div class="col-4 text-center mt-3">
+                          <p class="mb-1 text-muted">Goal Value</p>
+                          <h6 class="mb-0">$260</h6>
+                          <span class="small text-muted">+6%</span>
+                          <span class="fe fe-arrow-up text-success fe-12"></span>
+                        </div>
+                        <div class="col-4 text-center mt-3">
+                          <p class="mb-1 text-muted">Conversion</p>
+                          <h6 class="mb-0">6%</h6>
+                          <span class="small text-muted">-2%</span>
+                          <span class="fe fe-arrow-down text-danger fe-12"></span>
+                        </div>
+                      </div>
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </div> <!-- .col-md -->
+              </div> <!-- / .row -->
+              <div class="row">
+                <!-- Recent orders -->
+                <!-- / .col-md-3 -->
+              </div>
+               <!-- end section -->
+            </div>
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="list-group list-group-flush my-n3">
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-box fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Package has uploaded successfull</strong></small>
+                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
+                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-download fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Widgets are updated successfull</strong></small>
+                        <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
+                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-inbox fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Notifications have been sent</strong></small>
+                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
+                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                  <div class="list-group-item bg-transparent">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="fe fe-link fe-24"></span>
+                      </div>
+                      <div class="col">
+                        <small><strong>Link was attached to menu</strong></small>
+                        <div class="my-0 text-muted small">New layout has been attached to the menu</div>
+                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
+                      </div>
+                    </div>
+                  </div> <!-- / .row -->
+                </div> <!-- / .list-group -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body px-5">
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-success justify-content-center">
+                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Control area</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Activity</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Droplet</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Upload</p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Users</p>
+                  </div>
+                  <div class="col-6 text-center">
+                    <div class="squircle bg-primary justify-content-center">
+                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
+                    </div>
+                    <p>Settings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main> 
 @endsection

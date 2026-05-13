@@ -1,7 +1,8 @@
 <div>
     {{-- He who is contented is rich. - Laozi --}}
-
+ 
     <div id="loginForm" class="fade-in">
+     
         <div class="mb-8 flex justify-center">
     
           <p class="text-gray-500 text-sm mt-1">Sign in to manage your bookings and travel history.</p>
@@ -49,10 +50,40 @@
         </div>
 
         <!-- Login Button -->
-        <button  class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-base flex items-center justify-center gap-2 mb-5">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        {{-- <button type="submit"  class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-base flex items-center justify-center gap-2 mb-5">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
+</svg>
+
           Sign In to SwiftRide
-        </button>
+        </button> --}}
+        <button type="submit"
+    wire:click="login"
+    wire:loading.attr="disabled"
+    wire:target="login"
+    class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-base flex items-center justify-center gap-2 mb-5"
+>
+
+    <!-- NORMAL STATE (icon + text) -->
+    <span wire:loading.remove wire:target="login" class="flex items-center gap-2">
+        <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
+        </svg>
+
+        Sign In 
+    </span>
+
+    <!-- LOADING STATE -->
+    <span wire:loading wire:target="login" class="flex items-center gap-2 ">
+        <svg class="animate-spin w-5 h-5 justify-center items-center text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+    </span>
+
+</button>
        </form>
   {{-- End form --}}
         <p class="text-center text-sm text-gray-500">
