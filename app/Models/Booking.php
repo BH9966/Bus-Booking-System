@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $payment_status
  * @property string $booking_source
  * @property string|null $qr_code
- * @property Carbon|null $booked_at
- * @property Carbon|null $cancelled_at
+ * @property Carbon $booked_at
+ * @property Carbon $cancelled_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 

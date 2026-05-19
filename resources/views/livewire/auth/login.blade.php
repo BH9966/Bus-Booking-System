@@ -57,12 +57,7 @@
 
           Sign In to SwiftRide
         </button> --}}
-        <button type="submit"
-    wire:click="login"
-    wire:loading.attr="disabled"
-    wire:target="login"
-    class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-base flex items-center justify-center gap-2 mb-5"
->
+        <button type="submit" wire:click="login" wire:loading.attr="disabled" wire:target="login" class="btn-primary w-full text-white font-bold py-3.5 rounded-2xl text-base flex items-center justify-center gap-2 mb-5" >
 
     <!-- NORMAL STATE (icon + text) -->
     <span wire:loading.remove wire:target="login" class="flex items-center gap-2">

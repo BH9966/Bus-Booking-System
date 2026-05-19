@@ -26,10 +26,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $price
  * @property string $status
  * @property string $bus_status
+ * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
  * @property Bus $bus
+ * @property User $user
  * @property Route $route
  * @property Collection|Booking[] $bookings
  * @property Collection|SeatLock[] $seat_locks
@@ -48,7 +50,8 @@ class Trip extends Model
 		'departure_time' => 'datetime',
 		'arrival_time' => 'datetime',
 		'available_seats' => 'int',
-		'price' => 'float'
+		'price' => 'float',
+		'created_by' => 'int'
 	];
 
 	protected $fillable = [
@@ -63,12 +66,18 @@ class Trip extends Model
 		'available_seats',
 		'price',
 		'status',
-		'bus_status'
+		'bus_status',
+		'created_by'
 	];
 
 	public function bus()
 	{
 		return $this->belongsTo(Bus::class);
+	}
+
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'created_by');
 	}
 
 	public function route()

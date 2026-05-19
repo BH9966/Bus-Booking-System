@@ -18,6 +18,19 @@
       Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
       Chart.defaults.global.defaultFontColor = colors.mutedColor;
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+document.querySelector("form").addEventListener("submit", function () {
+    const btn = document.getElementById("saveBtn");
+    const text = document.getElementById("btnText");
+    const spinner = document.getElementById("btnSpinner");
+
+    btn.disabled = true;
+    text.innerText = "Saving...";
+    spinner.classList.remove("d-none");
+});
+</script>
+
     <script src="js/gauge.min.js"></script>
     <script src="js/jquery.sparkline.min.js"></script>
     <script src="js/apexcharts.min.js"></script>

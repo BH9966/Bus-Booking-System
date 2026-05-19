@@ -63,8 +63,8 @@ class Login extends Component
         request()->session()->regenerate();
 
         return match (Auth::user()->role) {
-            'SuperAdmin'    => redirect()->route('dashboard_admin'),
-            'operator' => redirect()->route('dashboard_operator'),
+            'SuperAdmin'    => redirect()->route('dashboard_superadmin'),
+            'admin' => redirect()->route('dashboard_admin'),
             default    => redirect()->route('dashboard_customer'),
         };
     }

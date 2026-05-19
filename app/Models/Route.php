@@ -19,9 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $distance_km
  * @property string|null $estimated_duration
  * @property string $status
+ * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property User $user
  * @property Location $location
  * @property Collection|Trip[] $trips
  *
@@ -34,7 +36,8 @@ class Route extends Model
 	protected $casts = [
 		'from_station_id' => 'int',
 		'to_station_id' => 'int',
-		'distance_km' => 'float'
+		'distance_km' => 'float',
+		'created_by' => 'int'
 	];
 
 	protected $fillable = [
@@ -42,8 +45,23 @@ class Route extends Model
 		'to_station_id',
 		'distance_km',
 		'estimated_duration',
-		'status'
+		'status',
+		'created_by'
 	];
+	 public function fromLocation()
+    {
+        return $this->belongsTo(Location::class, 'from_station_id');
+    }
+
+    public function toLocation()
+    {
+        return $this->belongsTo(Location::class, 'to_station_id');
+    }
+
+	public function creator()
+	{
+		return $this->belongsTo(User::class, 'created_by');
+	}
 
 	public function location()
 	{

@@ -17,16 +17,32 @@ Route::post('/logout', [verify::class, 'destroy'])->name('logout');
 
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
-    Route::middleware('role:SuperAdmin')->prefix('admin')->group(function () {
-        Route::get('/',[SuperdminController::class ,'index'])->name('dashboard_admin');
-        Route::get('/company',[SuperdminController::class , 'showCompany'])->name('admin.comapny');
-        Route::get('/company-information',[SuperdminController::class , 'companyInfons'])->name('admin.comapnyinfos');
-        Route::get('/users', fn () => view('admin.user_create'))->name('admin.users');
+    Route::middleware('role:SuperAdmin')->prefix('SuperAdmin')->group(function () {
+        Route::get('/',[SuperdminController::class ,'index'])->name('dashboard_superadmin');
+        Route::get('/company',[SuperdminController::class , 'showCompany'])->name('superadmin.comapny');
+        Route::get('/company-information',[SuperdminController::class , 'companyInfons'])->name('superadmin.comapnyinfos');
+        Route::get('/users',[SuperdminController::class , 'userpage'])->name('superadmin.users');
+        Route::post('/adduser',[SuperdminController::class, 'store'])->name('users.store');
+        Route::delete('/user/{id}',[SuperdminController::class , 'deleteUser'])->name('userdelete');
+        Route::post('/addd-company',[SuperdminController::class, 'addCompany'])->name('add_company');
+        Route::delete('/company/{id}',[SuperdminController::class , 'deleteCompany'])->name('deleteCompany');
     
     });
 
-    Route::middleware('role:operator')->prefix('operator')->group(function () {
-        Route::get('/', fn () => view('operator.dashboard'))->name('dashboard_operator');
+    Route::middleware('role:admin')->prefix('admin')->group(function () {
+        Route::get('/',[AdminController::class , 'index'] )->name('dashboard_admin');
+        Route::get('/buses',[AdminController::class , 'showBuses'])->name('admin_buses');
+        Route::post('/buses/add',[AdminController::class , 'addBus'])->name('adminAddbus');
+        Route::delete('/bus/{id}',[AdminController::class, 'deleteBus'])->name('busdelete');
+        Route::get('/bus/viewseat',[AdminController::class , 'viewseat'])->name('admin_view_seat');
+        Route::get('/location',[AdminController::class , 'viewlocation'])->name('viewlocation');
+        Route::post('/addlocation',[AdminController::class ,'storeLocation'])->name('storelocation');
+        Route::delete('/deletelocation/{id}',[AdminController::class , 'deletelocation'])->name('locationdelete');
+        Route::get('/roots',[AdminController::class , 'viewroots'])->name('viewroute');
+        Route::post('/addroots',[AdminController::class, 'storeRoute'])->name('storeRoute');
+        Route::delete('/root/{id}',[AdminController::class , 'deleteroot'])->name('routedelete');
+        Route::get('/trip',[AdminController::class , 'viewtrip'])->name('trip');
+        Route::post('addTrip',[AdminController::class ,'storeTrip'])->name('addtrip');
     });
 
     Route::middleware('role:customer')->prefix('customer')->group(function () {

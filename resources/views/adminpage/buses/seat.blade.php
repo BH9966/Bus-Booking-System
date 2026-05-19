@@ -1,7 +1,9 @@
-<nav class="vertnav navbar navbar-light">
+@extends('adminpage.layout')
+@section('vertical_nav')
+    <nav class="vertnav navbar navbar-light">
           <!-- nav bar -->
           <div class="w-100 mb-4 d-flex">
-            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{ route('dashboard_admin') }}">
+            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{ route('dashboard_superadmin') }}">
               <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
                 <g>
                   <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
@@ -13,7 +15,7 @@
           </div>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item ">
-              <a href="{{ route('dashboard_admin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+              <a href="{{ route('dashboard_superadmin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
                 <i class="fe fe-home fe-16"></i>
                 <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
               </a>
@@ -84,15 +86,15 @@
             </li> --}}
             <li class="nav-item dropdown">
               <a href="#campany" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="bi bi-buildings"></i>
-                <span class="ml-3 item-text">Companies</span>
+                <i class="bi bi-bus-front"></i>
+                <span class="ml-3 item-text">Buses</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="campany">
                 <li class="nav-item">
-                  <a class="nav-link pl-3" href="{{ route('admin.comapny') }}"><span class="ml-1 item-text">Campany list</span></a>
+                  <a class="nav-link pl-3" href="{{ route('admin_buses') }}"><span class="ml-1 item-text">Buses list</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link pl-3" href="{{ route('admin.comapnyinfos') }}"><span class="ml-1 item-text">Campany infomations</span></a>
+                  <a class="nav-link pl-3" href="{{ route('admin_view_seat') }}"><span class="ml-1 item-text">Seat</span></a>
                 </li>
                 
               </ul>
@@ -100,39 +102,34 @@
              <li class="nav-item dropdown">
               <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                 <i class="fe fe-user fe-16"></i>
-                <span class="ml-3 item-text">User</span>
+                <span class="ml-3 item-text">Location</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Add New User</span></a>
+                <a class="nav-link pl-3" href="{{ route('superadmin.users') }}"><span class="ml-1">Stations </span></a>
              
               </ul>
             </li>
-            <li class="nav-item dropdown">
+           <li class="nav-item dropdown">
               <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-               <i class="bi bi-calendar-check"></i>
-                <span class="ml-3 item-text">Booking</span>
+           <i class="fe fe-navigation fe-16"></i>
+                <span class="ml-3 item-text">Roots</span>
               </a>
               <ul class="collapse list-unstyled pl-4 w-100" id="charts">
                 <li class="nav-item">
-                  <a class="nav-link pl-3" href="./chart-inline.html"><span class="ml-1 item-text">Inline Chart</span></a>
+                  <a class="nav-link pl-3" href="{{ route('viewroute') }}"><span class="ml-1 item-text">Roots List</span></a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./chart-apexcharts.html"><span class="ml-1 item-text">ApexCharts</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pl-3" href="./datamaps.html"><span class="ml-1 item-text">Datamaps</span></a>
-                </li>
+                </li> --}}
+               
               </ul>
             </li>
           </ul>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item w-100">
-              <a class="nav-link" href="calendar.html">
-                <i class="bi bi-cash-coin"></i>
-                <span class="ml-3 item-text">Payment</span>
+              <a class="nav-link" href="{{ route('trip') }}">
+               <i class="fe fe-git-branch fe-16"></i>
+                <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
            
@@ -226,3 +223,59 @@
           </ul>
        
         </nav>
+@endsection
+@section('content')
+    <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              {{-- <h2 class="mb-2 page-title">Data table</h2> --}}
+            
+              <p class="card-text">List of seat per Bus </p>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr align="center">
+                            <th></th>
+                            <th>#</th>
+                            <th>Bus Name</th>
+                            <th>Bus Namber</th>
+                            <th>Plate Number</th>
+                            <th>Bus type</th>
+                            <th>Capacity </th>
+                            <th>Model </th>
+                            <th>Status</th>
+                            <th>Comapny</th>
+                            <th>Created By</th>
+                            <th >View seat</th>
+                          </tr>
+                        </thead>
+                       <tbody>
+                       <tbody>
+              <td>
+                            <button 
+                                class="btn btn-outline-primary btn-sm"
+                               
+                                title="View Seats">
+                                <i class="fe fe-eye"></i>
+                            </button>
+                        </td>
+                    </tbody>
+                    </tbody>
+                      </table>
+                    
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main>
+    
+@endsection

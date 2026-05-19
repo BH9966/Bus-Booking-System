@@ -27,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {{-- icons bootstrap --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <style>
 .btn-close {
     background: none !important;
@@ -34,26 +35,115 @@
     opacity: 1;
 }
 
+
+table th,
+table td {
+    white-space: nowrap;
+}
 .btn-close::before {
     content: "×";
     font-size: 24px;
     line-height: 1;
 }
+/* table */
+/* Desktop (default) */
+#dataTable-1 td,
+#dataTable-1 th {
+    font-size: 13px;
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    #dataTable-1 td,
+    #dataTable-1 th {
+        font-size: 12px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    #dataTable-1 td,
+    #dataTable-1 th {
+        font-size: 11px;
+    }
+}
+@media (max-width: 576px) {
+    #dataTable-1 td,
+    #dataTable-1 th {
+        padding: 4px 6px;
+        line-height: 1.2;
+    }
+}
+
 </style>
   </head>
   <body class="vertical  light  ">
     <div class="wrapper">
-      @include('admin.topnav')
+      @include('SuperAdmin.topnav')
       <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
         <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
           <i class="fe fe-x"><span class="sr-only"></span></i>
-        </a>
-        @include('admin.vertnav')
+   @yield('vertical_nav')
       </aside>
      @yield('content')
       
       <!-- main -->
     </div> <!-- .wrapper -->
- @include('admin.script')
+ @include('SuperAdmin.script')
+@if (session('errors'))
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: "{{ session('errors') }}",
+        showConfirmButton: false,
+        timer: 1500
+    });
+});
+</script>
+@endif
+<script>
+ document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        @endif
+        
+        @if(session('error'))
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: "{{ session('error') }}",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        @endif
+    
+    
+    });
+</script>
+<script>
+function confirmDelete(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "This company will be deleted permanently!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    });
+}
+</script>
   </body>
 </html>

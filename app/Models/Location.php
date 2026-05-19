@@ -17,9 +17,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $city
  * @property string $status
+ * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property User $user
  * @property Collection|Route[] $routes
  * @property Collection|TripStop[] $trip_stops
  *
@@ -29,11 +31,21 @@ class Location extends Model
 {
 	protected $table = 'locations';
 
+	protected $casts = [
+		'created_by' => 'int'
+	];
+
 	protected $fillable = [
 		'name',
 		'city',
-		'status'
+		'status',
+		'created_by'
 	];
+
+	public function creator()
+	{
+		return $this->belongsTo(User::class, 'created_by');
+	}
 
 	public function routes()
 	{

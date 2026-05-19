@@ -22,7 +22,7 @@ return new class extends Migration
         $table->string('phone')->unique();
         $table->string('profile_photo')->nullable();
         $table->string('address')->nullable();
-        $table->enum('role', ['admin','operator','customer'])->default('customer');
+        $table->enum('role', ['admin','operator','guest'])->default('guest');
         $table->enum('status', ['active','blocked'])->default('active');
         $table->timestamp('last_login_at')->nullable();
         $table->timestamp('email_verified_at')->nullable();
