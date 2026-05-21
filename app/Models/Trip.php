@@ -44,6 +44,7 @@ class Trip extends Model
 	protected $table = 'trips';
 
 	protected $casts = [
+		
 		'bus_id' => 'int',
 		'route_id' => 'int',
 		'departure_date' => 'datetime',
@@ -55,14 +56,15 @@ class Trip extends Model
 	];
 
 	protected $fillable = [
+		'company_id',
 		'bus_id',
 		'route_id',
 		'trip_code',
 		'departure_date',
 		'departure_time',
 		'arrival_time',
-		'boarding_point',
-		'dropping_point',
+		'boarding_point_id',
+		'dropping_point_id',
 		'available_seats',
 		'price',
 		'status',
@@ -75,7 +77,7 @@ class Trip extends Model
 		return $this->belongsTo(Bus::class);
 	}
 
-	public function user()
+	public function creator()
 	{
 		return $this->belongsTo(User::class, 'created_by');
 	}
@@ -99,4 +101,14 @@ class Trip extends Model
 	{
 		return $this->hasMany(TripStop::class);
 	}
+
+	public function boardingPoint()
+{
+    return $this->belongsTo(Location::class, 'boarding_point_id');
+}
+
+public function droppingPoint()
+{
+    return $this->belongsTo(Location::class, 'dropping_point_id');
+}
 }

@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('trips', function (Blueprint $table) {
+        Schema::table('seats', function (Blueprint $table) {
             //
-        $table->foreignId('company_id')
-            ->after('id')
-            ->constrained()
-            ->cascadeOnDelete();
-    });
-        
+             $table->enum('status', ['active','inactive'])->default('active');
+        });
     }
 
     /**
@@ -26,9 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('trips', function (Blueprint $table) {
+        Schema::table('seats', function (Blueprint $table) {
             //
-            $table->dropColumn('company_id');
+            
+            $table->dropColumn('status');
         });
     }
 };

@@ -248,7 +248,7 @@
                             <table class="table datatables" id="dataTable-1">
                         <thead>
                           <tr align="center">
-                            <th></th>
+                            
                             <th>#</th>
                             <th>Bus Name</th>
                             <th>Route</th>
@@ -271,54 +271,51 @@
                         <tr align="center">
 
                             <td>{{ $trips->firstItem() + $key }}</td>
-
-                            <td><strong>{{ $trip->trip_code }}</strong></td>
-
                             <td>{{ $trip->bus->bus_name ?? '-' }}</td>
-
                             <td>
                                 {{ $trip->route->fromLocation->name ?? '-' }}
                                 →
                                 {{ $trip->route->toLocation->name ?? '-' }}
                             </td>
-
                             <td>{{ $trip->departure_date }}</td>
-
-                            <td>
-                                {{ $trip->departure_time }} -
-                                {{ $trip->arrival_time }}
-                            </td>
-
-                            <td>{{ number_format($trip->price) }} TZS</td>
-
+                            <td>{{ $trip->departure_time }}</td>
+                            <td> {{ $trip->arrival_time }} </td>
+                            <td>{{ $trip->boardingPoint->name ?? '-' }}</td>       
+                            <td>{{ $trip->droppingPoint->name ?? '-' }}</td>    
+                            
                             <td>{{ $trip->available_seats }}</td>
-
-                            <td>
-                                <span class="badge bg-info">
-                                    {{ ucfirst($trip->trip_status) }}
+                            <td>{{ number_format($trip->price) }} TZS</td>
+                            <td><strong>{{ $trip->trip_code }}</strong></td>
+                             <td>
+                              <span class="badge 
+                               @if($trip->status == 'cancelled') badge-secondary text-white
+                                  @elseif($trip->status == 'scheduled') badge-warning text-white
+                                  @elseif($trip->status == 'completed') badge-success text-white
+                                  @else badge-danger
+                                  @endif">
+                                    {{ ucfirst($trip->status) }}
                                 </span>
                             </td>
-
                             <td>
-                                <span class="badge 
-                                    @if($trip->bus_trip_status == 'waiting') bg-secondary
-                                    @elseif($trip->bus_trip_status == 'boarding') bg-warning
-                                    @elseif($trip->bus_trip_status == 'departed') bg-primary
-                                    @elseif($trip->bus_trip_status == 'arrived') bg-success
-                                    @else bg-danger
-                                    @endif
-                                ">
-                                    {{ ucfirst($trip->bus_trip_status) }}
-                                </span>
-                            </td>
-
+                              <span class="badge
+                                  @if($trip->bus_status == 'waiting') badge-secondary text-white
+                                  @elseif($trip->bus_status == 'boarding') badge-warning text-white
+                                  @elseif($trip->bus_status == 'departed') badge-primary text-white
+                                  @elseif($trip->bus_status == 'arrived') badge-success text-white
+                                  @else badge-danger
+                                  @endif
+                              ">
+                                  {{ ucfirst($trip->bus_status) }}
+                              </span>
+                          </td>
+                            <td>{{ $trip->creator->name }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-1">
                                     <button class="btn btn-info btn-sm">
                                         <i class="fe fe-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-primary btn-sm mx-4">Edit</button>
                                 </div>
                             </td>
 
@@ -402,9 +399,9 @@
                                 <input type="time" class="form-control" name="arrival_time" required>
                             </div>
 
-                            <!-- BOARDING POINT -->
+                            <!-- Pick up  POINT -->
                             <div class="form-group">
-                                <label>Boarding Point</label>
+                                <label>Pick up Point</label>
                                 <select class="form-control" name="boarding_point_id">
                                     <option value="">-- Select Boarding --</option>
                                     @foreach($locations as $location)

@@ -242,7 +242,6 @@ class AdminController extends Controller
     if (!$bus) {
         return back()->with('errors', 'Invalid bus selected');
     }
-
     // 4. Create trip
     Trip::create([
         'company_id'        => Auth::user()->company_id,
