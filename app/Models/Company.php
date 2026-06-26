@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property User|null $user
  * @property Collection|Bus[] $buses
+ * @property Collection|Trip[] $trips
  * @property Collection|User[] $users
  *
  * @package App\Models
@@ -57,6 +58,11 @@ class Company extends Model
 	public function buses()
 	{
 		return $this->hasMany(Bus::class);
+	}
+
+	public function trips()
+	{
+		return $this->hasMany(Trip::class);
 	}
 
 	public function users()

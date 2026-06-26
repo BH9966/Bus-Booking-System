@@ -230,6 +230,11 @@
           <div class="row justify-content-center">
             <div class="col-12">
               {{-- <h2 class="mb-2 page-title">Data table</h2> --}}
+              <div class="d-flex justify-content-end mb-4 ">
+             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventModal">
+                <i class="bi bi-plus-circle-dotted"></i> Add Seat
+            </button>
+              </div>
             
               <p class="card-text">List of seat per Bus </p>
               <div class="row my-4">
@@ -238,36 +243,73 @@
                   <div class="card shadow">
                     <div class="card-body">
                       <!-- table -->
-                      <table class="table datatables" id="dataTable-1">
-                        <thead>
-                          <tr align="center">
-                            <th></th>
-                            <th>#</th>
-                            <th>Bus Name</th>
-                            <th>Bus Namber</th>
-                            <th>Plate Number</th>
-                            <th>Bus type</th>
-                            <th>Capacity </th>
-                            <th>Model </th>
-                            <th>Status</th>
-                            <th>Comapny</th>
-                            <th>Created By</th>
-                            <th >View seat</th>
-                          </tr>
-                        </thead>
-                       <tbody>
-                       <tbody>
-              <td>
-                            <button 
-                                class="btn btn-outline-primary btn-sm"
-                               
-                                title="View Seats">
-                                <i class="fe fe-eye"></i>
-                            </button>
-                        </td>
-                    </tbody>
-                    </tbody>
-                      </table>
+                <table class="table datatables" id="dataTable-1">
+                            <thead>
+                                <tr align="center">
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Bus Name</th>
+                                    <th>Seat Number</th>
+                                    <th>Seat Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @forelse ($seats as $index => $seat)
+                                    <tr align="center">
+                                        <td></td>
+                                        <td>{{ $index + 1 }}</td>
+
+                                        <td>
+                                            {{ $seat->bus->bus_name ?? 'N/A' }}
+                                        </td>
+
+                                        <td>{{ $seat->seat_number }}</td>
+
+                                        <td>
+                                            <span class="badge bg-info text-white fs-6">
+                                                {{ strtoupper($seat->seat_type) }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            @if ($seat->status === 'active')
+                                                <span class="badge bg-success text-white fs-6">Active</span>
+                                            @else
+                                                <span class="badge bg-danger text-white fs-6">Inactive</span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+
+                              <div class="d-flex justify-content-center gap-1">
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+
+                                        <form id="delete-form-{{ $seat->id }}"
+                                            action="{{ route('deleteseat', $seat->id) }}"
+                                            method="POST" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+
+                                        <button class="btn btn-danger btn-sm mx-4"
+                                                onclick="confirmDelete({{ $seat->id }})">
+                                            Delete
+                                        </button>
+                                      </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                  <tr>
+                                      <td colspan="7" class="text-center text-muted">
+                                          No Seat found
+                                      </td>
+                                  </tr>
+                              @endforelse
+                            </tbody>
+                        </table>
                     
                     </div>
                   </div>
@@ -277,5 +319,65 @@
           </div> <!-- .row -->
         </div> <!-- .container-fluid -->
       </main>
+
+      {{-- model start --}}
+
+      <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                   <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel" >Add Location</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                   <form action="{{ route('addseat') }}" method="POST">
+                      @csrf
+
+                      <div class="form-group">
+                          <label>Bus</label>
+                          <select class="form-control" name="bus_id" required>
+                              <option value="">-- Select Bus --</option>
+                              @foreach ($buses as $bus)
+                                  <option value="{{ $bus->id }}">
+                                      {{ $bus->bus_name }} ({{ $bus->plate_number }})
+                                  </option>
+                              @endforeach
+                          </select>
+                      </div>
+
+                      <div class="form-group">
+                          <label>Seat Number</label>
+                          <input type="text" class="form-control" name="seat_number" required>
+                      </div>
+
+                      <div class="form-group">
+                          <label>Status</label>
+                          <select class="form-control" name="status" required>
+                              <option value="">-- Select status --</option>
+                              <option value="active">Active</option>
+                              <option value="inactive">Inactive</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group">
+                          <label>Seat Type</label>
+                          <select class="form-control" name="seat_type" required>
+                              <option value="">-- Seat type --</option>
+                              <option value="normal">Normal</option>
+                              <option value="vip">VIP</option>
+                              <option value="disabled">Disabled</option>
+                          </select>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary">
+                          Add New Seat
+                      </button>
+                      </form>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
     
 @endsection

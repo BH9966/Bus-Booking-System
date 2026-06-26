@@ -7,6 +7,8 @@ use App\Models\Bus;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Location;
+use App\Models\Seat;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Route;
 use App\Models\Trip;
 class AdminController extends Controller
@@ -69,12 +71,83 @@ class AdminController extends Controller
     }
     public function viewseat()
     {
-        return view('adminpage.buses.seat');
+         $companyId = auth::user()->company_id;
+
+    $buses = Bus::where('company_id', $companyId)
+                ->where('bus_status', 'active')
+                ->orderBy('bus_number')
+                ->get();
+
+     $seats = Seat::with('bus')
+        ->whereHas('bus', function ($q) use ($companyId) {
+            $q->where('company_id', $companyId);
+        })
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return view('adminpage.buses.seat',compact('buses','seats'));
+    }
+
+    public function addSeat(Request $request)
+    {
+         
+    $validator = Validator::make($request->all(), [
+    'bus_id'      => 'required|exists:buses,id',
+    'seat_number' => 'required|string|max:10',
+    'status'      => 'required|in:active,inactive',
+    'seat_type'   => 'required|in:normal,vip,disabled',
+]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->with('errors', $validator->errors()->first())
+            ->withInput();
+    }
+
+    $bus = Bus::where('id', $request->bus_id)
+              ->where('company_id', auth::user()->company_id)
+              ->first();
+
+    if (!$bus) {
+        return redirect()->back()
+            ->with('errors', 'Unauthorized bus selection.');
+    }
+
+    
+    $exists = Seat::where('bus_id', $bus->id)
+                  ->where('seat_number', $request->seat_number)
+                  ->exists();
+
+    if ($exists) {
+        return redirect()->back()
+            ->with('errors', 'Seat already exists for this bus.')
+            ->withInput();
+    }
+
+    Seat::create([
+        'bus_id'      => $bus->id,
+        'seat_number' => strtoupper($request->seat_number),
+        'status'      => $request->status,
+        'seat_type'   => $request->seat_type,
+    ]);
+
+    return redirect()->back()
+        ->with('success', 'Seat added successfully.');
     }
     public function viewlocation()
     {
-         $locations= Location::with(['creator'])->paginate(2);
+         $locations= Location::with(['creator'])->paginate(10);
         return view('adminpage.location.location',compact('locations'));
+    }
+
+
+
+    public function deleteseat(int $id)
+    {
+        $seat = Seat::findOrFail($id);
+        $seat->delete();
+
+    return redirect()->back()->with('success', 'Seat deleted successfully!');
     }
     public function storeLocation(Request $request )
     {
@@ -133,7 +206,7 @@ class AdminController extends Controller
     {
          $routes = Route::with(['fromLocation', 'toLocation', 'creator'])  ->paginate(10);
 
-         $locations = Location::all(); // IMPORTANT for dropdown
+         $locations = Location::all(); 
 
     return view('adminpage.roots.root', compact('routes', 'locations'));;
     }
@@ -151,7 +224,7 @@ class AdminController extends Controller
         return back()->with('errors', 'All fields are required');
     }
 
-    // 2. From & To must be different
+    
     if ($request->from_location_id == $request->to_location_id) {
         return back()->with('errors', 'From and To stations must be different');
     }
@@ -201,7 +274,7 @@ class AdminController extends Controller
 
     $locations = Location::where('status', 'active')->get();
 
-    $trips = Trip::with(['bus', 'route'])
+    $trips = Trip::with(['bus', 'route','creator'])
         ->where('company_id', $companyId)
         ->latest()
         ->paginate(10);
@@ -262,4 +335,6 @@ class AdminController extends Controller
 
     return back()->with('success', 'Trip created successfully');
 }
+
+
 }

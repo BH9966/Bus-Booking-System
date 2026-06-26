@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property User $user
  * @property Collection|Route[] $routes
  * @property Collection|TripStop[] $trip_stops
+ * @property Collection|Trip[] $trips
  *
  * @package App\Models
  */
@@ -55,5 +56,10 @@ class Location extends Model
 	public function trip_stops()
 	{
 		return $this->hasMany(TripStop::class, 'station_id');
+	}
+
+	public function trips()
+	{
+		return $this->hasMany(Trip::class, 'dropping_point_id');
 	}
 }

@@ -48,21 +48,23 @@ class Route extends Model
 		'status',
 		'created_by'
 	];
-	 public function fromLocation()
-    {
-        return $this->belongsTo(Location::class, 'from_station_id');
-    }
-
-    public function toLocation()
-    {
-        return $this->belongsTo(Location::class, 'to_station_id');
-    }
 
 	public function creator()
 	{
 		return $this->belongsTo(User::class, 'created_by');
 	}
 
+
+
+	  public function fromLocation()
+    {
+        return $this->belongsTo(Location::class, 'from_location_id');
+    }
+
+    public function toLocation()
+    {
+        return $this->belongsTo(Location::class, 'to_location_id');
+    }
 	public function location()
 	{
 		return $this->belongsTo(Location::class, 'to_station_id');

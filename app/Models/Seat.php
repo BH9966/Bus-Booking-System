@@ -18,12 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $seat_number
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string $status
+ * @property string $seat_type
  * 
  * @property Bus $bus
  * @property Collection|BookedSeat[] $booked_seats
  * @property Collection|Passenger[] $passengers
  * @property Collection|SeatLock[] $seat_locks
  * @property Collection|Ticket[] $tickets
+ * @property Collection|Trip[] $trips
  *
  * @package App\Models
  */
@@ -37,7 +40,9 @@ class Seat extends Model
 
 	protected $fillable = [
 		'bus_id',
-		'seat_number'
+		'seat_number',
+		'status',
+		'seat_type'
 	];
 
 	public function bus()
@@ -63,5 +68,12 @@ class Seat extends Model
 	public function tickets()
 	{
 		return $this->hasMany(Ticket::class);
+	}
+
+	public function trips()
+	{
+		return $this->belongsToMany(Trip::class, 'trip_seats')
+					->withPivot('id', 'is_booked', 'booked_by')
+					->withTimestamps();
 	}
 }

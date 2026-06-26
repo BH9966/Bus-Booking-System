@@ -308,7 +308,7 @@
                                   {{ ucfirst($trip->bus_status) }}
                               </span>
                           </td>
-                            <td>{{ $trip->creator->name }}</td>
+                            <td>{{ optional($trip->creator)->name}}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-1">
                                     <button class="btn btn-info btn-sm">
@@ -384,7 +384,7 @@
                             <!-- DEPARTURE DATE -->
                             <div class="form-group">
                                 <label>Departure Date</label>
-                                <input type="date" class="form-control" name="departure_date" required>
+                                <input type="date" class="form-control" name="departure_date"  min="{{ date('Y-m-d') }}" required>
                             </div>
 
                             <!-- DEPARTURE TIME -->

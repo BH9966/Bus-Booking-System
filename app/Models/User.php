@@ -7,7 +7,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,6 +39,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Collection|Location[] $locations
  * @property Collection|Route[] $routes
  * @property Collection|SeatLock[] $seat_locks
+ * @property Collection|TripSeat[] $trip_seats
  * @property Collection|Trip[] $trips
  * @property Collection|User[] $users
  *
@@ -115,6 +115,11 @@ class User extends Authenticatable
 	public function seat_locks()
 	{
 		return $this->hasMany(SeatLock::class);
+	}
+
+	public function trip_seats()
+	{
+		return $this->hasMany(TripSeat::class, 'booked_by');
 	}
 
 	public function trips()

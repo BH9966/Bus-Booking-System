@@ -35,6 +35,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::post('/buses/add',[AdminController::class , 'addBus'])->name('adminAddbus');
         Route::delete('/bus/{id}',[AdminController::class, 'deleteBus'])->name('busdelete');
         Route::get('/bus/viewseat',[AdminController::class , 'viewseat'])->name('admin_view_seat');
+        Route::post('seat',[AdminController::class, 'addSeat'])->name('addseat');
+        Route::delete('seat/{id}',[AdminController::class , 'deleteseat'])->name('deleteseat');
         Route::get('/location',[AdminController::class , 'viewlocation'])->name('viewlocation');
         Route::post('/addlocation',[AdminController::class ,'storeLocation'])->name('storelocation');
         Route::delete('/deletelocation/{id}',[AdminController::class , 'deletelocation'])->name('locationdelete');

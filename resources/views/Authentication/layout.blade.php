@@ -10,26 +10,22 @@
     
 
     <!-- Logo -->
-    <div class="relative z-10">
-      <div class="flex items-center gap-3 mb-2">
-        <div class="w-11 h-11 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#059669,#10b981)">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round">
-            <rect x="2" y="4" width="20" height="14" rx="3"/>
-            <path d="M10 18v2M14 18v2M2 10h20"/>
-            <circle cx="6.5" cy="15" r="1.5" fill="white" stroke="none"/>
-            <circle cx="17.5" cy="15" r="1.5" fill="white" stroke="none"/>
-          </svg>
-        </div>
-        <span class="font-display text-2xl font-bold text-white">Swift<span class="text-[#1D4ED8]">Ride</span></span>
-      </div>
+   <div class="relative z-10">
+  <div class="flex items-center gap-4 mb-4">
+    <div class="w-16 h-16 flex items-center justify-center">
+      <img src="{{ asset('logo/logo_site-removebg-preview (1).png') }}" class="w-full h-full object-contain" alt="SafariBus Logo">
     </div>
-    
+    <span class="text-3xl font-extrabold tracking-tight text-[#1D4ED8] font-sans">
+      SafariBus
+    </span>
+  </div>
+</div>
 
     <!-- Center Content -->
     <div class="relative z-10 flex-1 flex flex-col justify-center py-12">
       <!-- Bus SVG Illustration -->
       <div class="bus-illustration mb-10">
-         <h1 class="font-display text-4xl font-bold text-white leading-tight mb-4">
+         <h1 class="font-display text-4xl font-bold text-white leading-tight mb-4 font-sans">
         Travel Across<br> <span class="text-[#1D4ED8]">Tanzania</span>  in Style
       </h1>
       </div>
@@ -89,19 +85,19 @@
             <circle cx="17.5" cy="15" r="1.5" fill="white" stroke="none"/>
           </svg>
         </div>
-        <span class="font-display text-2xl font-bold text-gray-900">Swift<span class="text-emerald-600">Ride</span></span>
+        <span class="font-display text-2xl font-bold text-gray-900">Safari<span class="text-emerald-600">Bus</span></span>
       </div>
 
       <!-- Tab Switcher -->
       <a href="{{ route('home') }}">
-      <div class="flex justify-content-between"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <div class="flex justify-content-between"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1D4ED8" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-</svg><p class="text-[#1D4ED8]">
+</svg><p class="text-[#1D4ED8] font-sans">
 Home</p></div>
 </a>
       <div class="flex justify-center mb-8" id="tabBar">
         
-    <h1 class="text-2xl font-bold text-[#1D4ED8]">LOGIN</h1>
+    <h1 class="text-2xl font-bold text-[#1D4ED8] font-sans">LOGIN</h1>
 </div>
 
       <!-- ===== LOGIN FORM ===== -->
