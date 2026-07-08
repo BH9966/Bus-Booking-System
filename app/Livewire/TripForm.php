@@ -57,48 +57,53 @@ class TripForm extends Component
         }
 
 
-        public function stepOneNext()
-        {
-            $this->validate([
-                'bus_id' => 'required',
-                'route_id' => 'required',
-            ]);
+       public function stepOneNext()
+{
+    // 1. Standard Validation
+    $this->validate([
+        'bus_id' => 'required',
+        'route_id' => 'required',
+    ], [
+        'bus_id.required' => 'Please assign a bus for this trip.',
+        'route_id.required' => 'Please select a primary route.',
+    ]);
 
-            // Check duplicate trip
-            $exists = Trip::where('bus_id', $this->bus_id)
-                ->where('route_id', $this->route_id)
-                ->exists();
+    // 2. Check duplicate trip
+    $exists = Trip::where('bus_id', $this->bus_id)
+        ->where('route_id', $this->route_id)
+        ->exists();
 
-            if ($exists) {
-                session()->flash('error', 'This bus already has a trip on this route');
-                return;
-            }
+    if ($exists) {
+        // Tie the error directly to the bus_id input field down below
+        $this->addError('bus_id', 'This bus already has an active trip scheduled on this route.');
+        return;
+    }
 
-            $companyId = Auth::user()->company_id;
-            $route = Route::findOrFail($this->route_id);
+    $companyId = Auth::user()->company_id;
+    $route = Route::findOrFail($this->route_id);
 
-            // Load route cities & terminals
-            $this->routes = Route::with(['fromRegion', 'toRegion'])
-                ->where('company_id', $companyId)
-                ->where('status', 'active')
-                ->get();
+    // Load route cities & terminals
+    $this->routes = Route::with(['fromRegion', 'toRegion'])
+        ->where('company_id', $companyId)
+        ->where('status', 'active')
+        ->get();
 
-                    $this->pickupLocations = Location::where('company_id', Auth::user()->company_id)
-                ->where('region_id', $route->from_region_id)
-                ->where('status', 'active')
-                ->whereIn('type', ['city', 'terminal'])
-                ->orderBy('name')
-                ->get();
+    $this->pickupLocations = Location::where('company_id', Auth::user()->company_id)
+        ->where('region_id', $route->from_region_id)
+        ->where('status', 'active')
+        ->whereIn('type', ['city', 'terminal'])
+        ->orderBy('name')
+        ->get();
 
-            $this->dropoffLocations = Location::where('company_id', Auth::user()->company_id)
-                ->where('region_id', $route->to_region_id)
-                ->where('status', 'active')
-                ->whereIn('type', ['city', 'terminal'])
-                ->orderBy('name')
-                ->get();
+    $this->dropoffLocations = Location::where('company_id', Auth::user()->company_id)
+        ->where('region_id', $route->to_region_id)
+        ->where('status', 'active')
+        ->whereIn('type', ['city', 'terminal'])
+        ->orderBy('name')
+        ->get();
 
-            $this->step = 2;
-        }
+    $this->step = 2;
+}
             public function previousStep()
             {
                 if ($this->step > 1) {
@@ -108,50 +113,60 @@ class TripForm extends Component
 
 
         public function stepTwoNext()
-            {
-                $this->validate([
-                    'boarding_point_id' => 'required|different:dropping_point_id',
-                    'dropping_point_id' => 'required',
-                ]);
+        {
+            $this->validate([
+                'boarding_point_id' => 'required|different:dropping_point_id',
+                'dropping_point_id' => 'required',
+            ], [
+                'boarding_point_id.required' => 'Please select a boarding terminal.',
+                'boarding_point_id.different' => 'The boarding terminal cannot be the same as the destination stop.',
+                'dropping_point_id.required' => 'Please select a destination stop.',
+            ]);
 
-                $this->step = 3;
-            }
+            $this->step = 3;
+        }
 
 
             public function save()
 {
     $this->validate([
-        'departure_date' => 'required',
+        'departure_date' => 'required|date|after_or_equal:today',
         'departure_time' => 'required',
-        'arrival_time' => 'required',
-        'price' => 'required|numeric',
+        'arrival_time'   => 'required|different:departure_time',
+        'price'          => 'required|numeric|min:1',
+        'trip_status'    => 'required',
+    ], [
+        'departure_date.after_or_equal' => 'The departure date cannot be in the past.',
+        'arrival_time.different'        => 'The arrival time cannot be the exact same as the departure time.',
+        'price.min'                     => 'The fare price must be a valid amount greater than 0.',
+        'trip_status.required'          => 'Please select a trip status.',
     ]);
 
     $bus = Bus::findOrFail($this->bus_id);
 
     Trip::create([
-        'company_id' => Auth::user()->company_id,
-        'bus_id' => $bus->id,
-        'route_id' => $this->route_id,
+        'company_id'        => Auth::user()->company_id,
+        'bus_id'            => $bus->id,
+        'route_id'          => $this->route_id,
         'boarding_point_id' => $this->boarding_point_id,
         'dropping_point_id' => $this->dropping_point_id,
-        'departure_date' => $this->departure_date,
-        'departure_time' => $this->departure_time,
-        'arrival_time' => $this->arrival_time,
-        'price' => $this->price,
-        'available_seats' => $bus->capacity,
-        'trip_code' => 'TRP-' . strtoupper(Str::random(6)),
-        'status' => $this->trip_status,
+        'departure_date'    => $this->departure_date,
+        'departure_time'    => $this->departure_time,
+        'arrival_time'      => $this->arrival_time,
+        'price'             => $this->price,
+        'available_seats'   => $bus->capacity,
+        'trip_code'         => 'TRP-' . strtoupper(Str::random(6)),
+        'status'            => $this->trip_status,
         'created_by'        => Auth::id(),
     ]);
 
     $this->reset();
     $this->step = 1;
 
-    session()->flash('success','Trip created successfully');
+    session()->flash('success', 'Trip created successfully');
 
     return redirect()->route('trip');
-    }
+}
 
     public function render()
     {

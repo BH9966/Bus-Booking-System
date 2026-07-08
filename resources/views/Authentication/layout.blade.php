@@ -7,17 +7,18 @@
 
   <!-- Left Panel — Branding -->
   <div class="hidden lg:flex lg:w-1/2 hero-bg relative overflow-hidden flex-col justify-between p-12">
-    
+
 
     <!-- Logo -->
    <div class="relative z-10">
-  <div class="flex items-center gap-4 mb-4">
-    <div class="w-16 h-16 flex items-center justify-center">
-      <img src="{{ asset('logo/logo_site-removebg-preview (1).png') }}" class="w-full h-full object-contain" alt="SafariBus Logo">
-    </div>
-    <span class="text-3xl font-extrabold tracking-tight text-[#1D4ED8] font-sans">
+  <div class="flex items-center flex   mb-4">
+    <span class="text-3xl font-extrabold tracking-tight text-[#1D4ED8]   font-sans">
       SafariBus
     </span>
+    <div class="w-16 h-16 flex items-center justify-start">
+      {{-- <img src="{{ asset('logo/logo_site-removebg-preview (1).png') }}" class="w-full h-full object-contain" alt="SafariBus Logo"> --}}
+    </div>
+
   </div>
 </div>
 
@@ -30,7 +31,7 @@
       </h1>
       </div>
 
-      
+
       {{-- <p class="text-black text-base leading-relaxed mb-10 max-w-sm">
         Book bus tickets instantly  2026 - {{ date('Y') }}
       </p> --}}
@@ -89,14 +90,14 @@
       </div>
 
       <!-- Tab Switcher -->
-      <a href="{{ route('home') }}">
+      {{-- <a href="{{ route('home') }}">
       <div class="flex justify-content-between"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1D4ED8" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
 </svg><p class="text-[#1D4ED8] font-sans">
 Home</p></div>
-</a>
+</a> --}}
       <div class="flex justify-center mb-8" id="tabBar">
-        
+
     <h1 class="text-2xl font-bold text-[#1D4ED8] font-sans">LOGIN</h1>
 </div>
 

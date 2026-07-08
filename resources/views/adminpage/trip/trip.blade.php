@@ -228,155 +228,148 @@
         </nav>
 @endsection
 @section('content')
-
-       <main role="main" class="main-content">
-        <div class="container-fluid">
-          <div class="row justify-content-center">
+<main role="main" class="main-content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
             <div class="col-12">
-              {{-- <h2 class="mb-2 page-title">Data table</h2> --}}
-              <div class="d-flex justify-content-end mb-4 ">
-             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventModal">
-                <i class="bi bi-plus-circle-dotted"></i> Add Trip
-            </button>
-              </div>
-              <p class="card-text">List of All Trip </p>
-
-              <div class="row my-4">
-                <!-- Small table -->
-                <div class="col-md-12">
-                  <div class="card shadow">
-                      {{-- responsive --}}
-                      <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table datatables" id="dataTable-1">
-                        <thead>
-                          <tr align="center">
-
-                            <th>#</th>
-                            <th>Bus Name</th>
-                            <th>Route</th>
-                            <th>Travel Date</th>
-                            <th>Leaving Time</th>
-                            <th>Arrival Time (hrs)</th>
-                            <th>Pickup Location </th>
-                            <th>Destination Stop </th>
-                            <th>Available seats</th>
-                            <th>Price</th>
-                            <th>Trip Code</th>
-                            <th>Trip Status</th>
-                            <th>Bus trip status</th>
-                            <th>Created By</th>
-                            <th >Action</th>
-                          </tr>
-                        </thead>
-                       <tbody>
-                        @forelse($trips as $key => $trip)
-                        <tr align="center">
-
-                            <td>{{ $trips->firstItem() + $key }}</td>
-                            <td>{{ $trip->bus->bus_name ?? '-' }}</td>
-                            <td>
-                                {{ $trip->route->fromRegion->name ?? '-' }}
-                                →
-                                {{ $trip->route->toRegion->name ?? '-' }}
-                            </td>
-                            <td>{{ $trip->departure_date }}</td>
-                            <td>{{ $trip->departure_time }}</td>
-                            <td> {{ $trip->arrival_time }} </td>
-                            <td>{{ $trip->boardingPoint->name ?? '-' }}</td>
-                            <td>{{ $trip->droppingPoint->name ?? '-' }}</td>
-
-                            <td>{{ $trip->available_seats }}</td>
-                            <td>{{ number_format($trip->price) }} TZS</td>
-                            <td><strong>{{ $trip->trip_code }}</strong></td>
-                             <td>
-                              <span class="badge
-                               @if($trip->status == 'cancelled') badge-secondary text-white fs-1
-                                  @elseif($trip->status == 'scheduled') badge-warning text-white fs-1
-                                  @elseif($trip->status == 'completed') badge-success text-white fs-1
-                                  @else badge-danger fs-1
-                                  @endif">
-                                    {{ ucfirst($trip->status) }}
-                                </span>
-                            </td>
-                            <td>
-                              <span class="badge
-                                  @if($trip->bus_status == 'waiting') badge-secondary text-white fs-1
-                                  @elseif($trip->bus_status == 'boarding') badge-warning text-white fs-1
-                                  @elseif($trip->bus_status == 'departed') badge-primary text-white fs-1
-                                  @elseif($trip->bus_status == 'arrived') badge-success text-white fs-1
-                                  @else badge-danger
-                                  @endif
-                              ">
-                                  {{ ucfirst($trip->bus_status) }}
-                              </span>
-                          </td>
-                            <td>{{ optional($trip->creator)->name}}</td>
-
-                              {{--  <td>
-                                    <div class="d-flex justify-content-center gap-1">
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-
-                                        <form id="delete-form-{{ $trip->id }}"
-                                            action="{{ route('routedelete', $route->id) }}"
-                                            method="POST" style="display:none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-
-                                        <button class="btn btn-danger btn-sm mx-4"
-                                                onclick="confirmDelete({{ $trip->id }})">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>  --}}
-                            <td>
-                                <div class="d-flex justify-content-center gap-1">
-                                    <button class="btn btn-primary btn-sm mx-4">Edit</button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash3-fill"></i>
-                                    </button>
-
-
-                                </div>
-                            </td>
-
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="11" class="text-center text-muted">
-                                No trips found
-                            </td>
-                        </tr>
-                        @endforelse
-                        </tbody>
-
-                      </table>
-                      {{ $trips->links() }}
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="mb-1 text-dark font-weight-bold">Trip Operations</h4>
+                        <p class="text-muted small mb-0">Manage and schedule intercity bus routes and trip timetables</p>
                     </div>
-                    </div>
-                  </div>
-                </div> <!-- simple table -->
-              </div>
- <!-- end section -->
-            </div> <!-- .col-12 -->
-          </div> <!-- .row -->
-        </div> <!-- .container-fluid -->
-
-             <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                   <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalLabel" >Add Trip</h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                   <livewire:trip-form />
-                    </div>
-
-                  </div>
+                    <button class="btn btn-primary d-inline-flex align-items-center shadow-sm px-3 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#eventModal">
+                        <i class="bi bi-plus-circle-dotted me-2 fs-5"></i> Add New Trip
+                    </button>
                 </div>
-              </div>
-      </main>
+
+                <div class="row my-4">
+                    <div class="col-md-12">
+                        <div class="card shadow border-0 rounded-lg">
+                            <div class="card-body p-4">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle datatables" id="dataTable-1">
+                                        <thead class="thead-light bg-light">
+                                            <tr align="center" class="text-secondary small fw-bold">
+                                                <th>#</th>
+                                                <th>Bus Name</th>
+                                                <th>Route</th>
+                                                <th>Travel Date</th>
+                                                <th>Leaving Time</th>
+                                                <th>Arrival Time (hrs)</th>
+                                                <th>Pickup Location</th>
+                                                <th>Destination Stop</th>
+                                                <th>Available seats</th>
+                                                <th>Price</th>
+                                                <th>Trip Code</th>
+                                                <th>Trip Status</th>
+                                                <th>Bus trip status</th>
+                                                <th>Created By</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($trips as $key => $trip)
+                                            <tr align="center" class="small">
+                                                <td class="fw-bold text-secondary fs-1">{{ $trips->firstItem() + $key }}</td>
+                                                <td class="fw-semibold text-dark fs-1">{{ $trip->bus->bus_name ?? '-' }}</td>
+                                                <td>
+                                                    <span class="badge bg-light text-dark border p-2 rounded-pill fs-1">
+                                                        {{ $trip->route->fromRegion->name ?? '-' }} 
+                                                        <i class="bi bi-arrow-right text-primary mx-1 "></i> 
+                                                        {{ $trip->route->toRegion->name ?? '-' }}
+                                                    </span>
+                                                </td>
+                                                <td><i class="bi bi-calendar3 me-1 text-muted"></i>{{ $trip->departure_date }}</td>
+                                                <td class="text-primary fw-semibold">{{ $trip->departure_time }}</td>
+                                                <td class="text-muted">{{ $trip->arrival_time }}</td>
+                                                <td><span class="text-truncate d-inline-block fs-1" style="max-width: 120px;">{{ $trip->boardingPoint->name ?? '-' }}</span></td>
+                                                <td><span class="text-truncate d-inline-block fs-1" style="max-width: 120px;">{{ $trip->droppingPoint->name ?? '-' }}</span></td>
+                                                <td>
+                                                    <span class="fw-bold {{ $trip->available_seats > 5 ? 'text-success fs-1' : 'text-danger fs-1' }}">
+                                                        {{ $trip->available_seats }}
+                                                    </span>
+                                                </td>
+                                                <td class="fw-bold text-dark fs-1">{{ number_format($trip->price) }} TZS</td>
+                                                <td><code class="text-dark bg-light px-2 py-1 rounded border fw-bold fs-1">{{ $trip->trip_code }}</code></td>
+                                                <td>
+                                                    <span class="badge px-2.5 py-1.5 rounded-pill
+                                                        @if($trip->status == 'cancelled') bg-secondary text-white fs-1
+                                                        @elseif($trip->status == 'scheduled') bg-warning text-dark fs-1
+                                                        @elseif($trip->status == 'completed') bg-success text-white fs-1
+                                                        @else bg-danger text-white fs-1
+                                                        @endif">
+                                                        {{ ucfirst($trip->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge px-2.5 py-1.5 rounded-pill
+                                                        @if($trip->bus_status == 'waiting') bg-light text-secondary border fs-1
+                                                        @elseif($trip->bus_status == 'boarding') bg-info text-dark fs-1
+                                                        @elseif($trip->bus_status == 'departed') bg-primary text-white fs-1
+                                                        @elseif($trip->bus_status == 'arrived') bg-success text-white fs-1
+                                                        @else bg-danger text-white
+                                                        @endif">
+                                                        {{ ucfirst($trip->bus_status) }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-muted text-capitalize small">{{ optional($trip->creator)->name }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <button class="btn btn-sm btn-outline-primary px-2.5 py-1 d-inline-flex align-items-center">
+                                                            <i class="bi bi-pencil-square me-1"></i> Edit
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-danger px-2 py-1">
+                                                            <i class="bi bi-trash3-fill"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="15" class="text-center py-5 text-muted">
+                                                    <i class="bi bi-layers fs-2 mb-2 d-block text-opacity-20 text-dark"></i>
+                                                    No deployment trips logged in system database matches queries.
+                                                </td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div class="small text-muted">
+                                        Showing records {{ $trips->firstItem() }} to {{ $trips->lastItem() }} of {{ $trips->total() }} total entries
+                                    </div>
+                                    <div>
+                                        {{ $trips->links() }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </div> 
+    </div> 
+
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded-xl" style="border-radius: 0.75rem; overflow: hidden;">
+                <div class="modal-header bg-light border-bottom px-4 py-3 align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-plus-circle text-primary fs-5 me-2"></i>
+                        <h5 class="modal-title fw-bold text-dark mb-0" id="eventModalLabel">Create Dispatch Trip</h5>
+                    </div>
+                    <button type="button" class="btn-close shadow-none border-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-white">
+                    <livewire:trip-form />
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 @endsection

@@ -67,6 +67,8 @@
 }
 
 {{--  end  --}}
+
+
 .btn-close {
     background: none !important;
     font-size: 1.5rem;

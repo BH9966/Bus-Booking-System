@@ -1,10 +1,10 @@
 <div>
     {{-- He who is contented is rich. - Laozi --}}
- 
+
     <div id="loginForm" class="fade-in">
-     
+
         <div class="mb-8 flex justify-center">
-    
+
           <p class="text-gray-500 text-sm mt-1">Sign in to manage your bookings and travel history.</p>
         </div>
         {{-- form start --}}
@@ -24,7 +24,7 @@
 
             <input type="email" id="loginEmail" wire:model.defer="email" class="input-field " required autocomplete="current-password" placeholder="you@example.com" >
           </div>
-    
+
         </div>
 
         <!-- Password -->
@@ -46,7 +46,7 @@
             <input type="checkbox" class="custom-check" id="rememberMe">
             <span class="text-sm text-gray-600">Remember me</span>
           </label>
-          <button class="text-sm text-[#1D4ED8] font-semibold hover:text-[#1D4ED8] transition-colors">Forgot password?</button>
+          <button class="text-sm text-[#1D4ED8] font-semibold hover:text-[#1D4ED8] transition-colors"> <a href="#">Forgot password?</a> </button>
         </div>
 
         <!-- Login Button -->
@@ -66,7 +66,7 @@
                 d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
         </svg>
 
-        Sign In 
+        Sign In
     </span>
 
     <!-- LOADING STATE -->
@@ -86,5 +86,6 @@
           <button  class="text-[#1D4ED8] font-bold hover:text-[#1D4ED2] transition-colors ml-1">Sign up free →</button>
         </p>
       </div>
-      
+       <button class="btn btn-primary"><a  href="{{route('home')}}">Home</a> </button>
+
 </div>
