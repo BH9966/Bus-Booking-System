@@ -1,6 +1,30 @@
 <div>
     {{-- Act only according to that maxim whereby you can, at the same time, will that it should become a universal law. - Immanuel Kant --}}
 
+
+
+
+    <div class="position-relative">
+
+    <!-- Loading Overlay -->
+    <div wire:loading.flex
+         wire:target="stepOneNext,stepTwoNext,previousStep,save"
+         class="loading-overlay">
+
+        <div class="loading-box text-center">
+            <div class="spinner-border text-primary loading-spinner" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <h5 class="mt-3 mb-1">Please wait...</h5>
+            <small class="text-muted">
+                Processing your request
+            </small>
+        </div>
+
+    </div>
+
+
     @if($step == 1)
 <div wire:loading.class="opacity-50"
      wire:target="stepOneNext">
@@ -28,16 +52,12 @@
         @endforeach
     </select>
 
-    <button wire:click="stepOneNext"
-            wire:loading.attr="disabled"
-            wire:target="stepOneNext"
-            class="btn btn-primary">
-
-        <span wire:loading.remove wire:target="stepOneNext">Next</span>
-        <span wire:loading wire:target="stepOneNext">
-            <i class="spinner-border spinner-border-sm"></i> Loading...
-        </span>
-    </button>
+   <button wire:click="stepOneNext"
+        wire:loading.attr="disabled"
+        wire:target="stepOneNext"
+        class="btn btn-primary">
+    Next
+</button>
 </div>
 @endif
 
@@ -73,17 +93,18 @@
 
     <div class="d-flex justify-content-between">
         <button wire:click="previousStep"
-                wire:loading.attr="disabled"
-                class="btn btn-secondary">
-            Previous
-        </button>
+        wire:loading.attr="disabled"
+        wire:target="previousStep"
+        class="btn btn-secondary">
+    Previous
+</button>
 
         <button wire:click="stepTwoNext"
-                wire:loading.attr="disabled"
-                wire:target="stepTwoNext"
-                class="btn btn-primary">
-            Next
-        </button>
+        wire:loading.attr="disabled"
+        wire:target="stepTwoNext"
+        class="btn btn-primary">
+    Next
+</button>
     </div>
 </div>
 @endif
@@ -119,18 +140,19 @@
     </select>
 
     <div class="d-flex justify-content-between">
-        <button wire:click="previousStep"
-                wire:loading.attr="disabled"
-                class="btn btn-secondary">
-            Previous
-        </button>
+         <button wire:click="previousStep"
+        wire:loading.attr="disabled"
+        wire:target="previousStep"
+        class="btn btn-secondary">
+    Previous
+</button>
 
         <button wire:click="save"
-                wire:loading.attr="disabled"
-                wire:target="save"
-                class="btn btn-success">
-            Save Trip
-        </button>
+        wire:loading.attr="disabled"
+        wire:target="save"
+        class="btn btn-success">
+    Save Trip
+</button>
     </div>
 </div>
 @endif

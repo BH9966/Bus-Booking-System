@@ -27,8 +27,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {{-- icons bootstrap --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     <style>
+
+
+
+
+        .loading-overlay{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    background:rgba(255,255,255,.65);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+
+    backdrop-filter:blur(2px);
+}
+
+.loading-box{
+    background:#fff;
+    padding:25px 35px;
+    border-radius:12px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    min-width:220px;
+}
+
+.loading-spinner{
+    width:4rem;
+    height:4rem;
+}
+
+{{--  end  --}}
 .btn-close {
     background: none !important;
     font-size: 1.5rem;
@@ -86,7 +124,7 @@ table td {
    @yield('vertical_nav')
       </aside>
      @yield('content')
-      
+
       <!-- main -->
     </div> <!-- .wrapper -->
  @include('SuperAdmin.script')
@@ -114,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 timer: 1500
             });
         @endif
-        
+
         @if(session('error'))
             Swal.fire({
                 position: 'top-end',
@@ -124,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 timer: 1500
             });
         @endif
-    
-    
+
+
     });
 </script>
 <script>
