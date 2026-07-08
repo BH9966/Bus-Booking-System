@@ -15,7 +15,7 @@
           </div>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item ">
-              <a href="{{ route('dashboard_superadmin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+              <a href="{{ route('dashboard_admin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
                 <i class="fe fe-home fe-16"></i>
                 <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
               </a>
@@ -103,9 +103,13 @@
              <i class="bi bi-geo-alt-fill"></i>
                 <span class="ml-3 item-text">Location</span>
               </a>
+               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="{{ route('region') }}"><span class="ml-1">Region </span></a>
+
+              </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Station </span></a>
-             
+                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Locatioon </span></a>
+
               </ul>
             </li>
            <li class="nav-item dropdown">
@@ -120,7 +124,7 @@
                 {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                 </li> --}}
-               
+
               </ul>
             </li>
           </ul>
@@ -131,7 +135,7 @@
                 <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
-           
+
             <li class="nav-item dropdown">
               <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                <i class="bi bi-credit-card"></i>
@@ -218,9 +222,9 @@
                 <a class="nav-link pl-3" href="./auth-confirm.html"><span class="ml-1">Confirm Password</span></a>
               </ul>
             </li>
-           
+
           </ul>
-       
+
         </nav>
 @endsection
 
@@ -245,10 +249,11 @@
                       <table class="table datatables" id="dataTable-1">
                         <thead>
                           <tr align="center">
-                
+
                             <th>#</th>
+                            <th>Region</th>
                             <th>Name</th>
-                            <th>City Name</th>
+                            <th>Type</th>
                             <th>Status </th>
                             <th >Action</th>
                           </tr>
@@ -259,13 +264,14 @@
 
                             <td>{{ $locations->firstItem() + $key }}</td>
 
-                            <td>{{ $location->name }}</td>
+                             <td>{{ \App\Models\Region::find($location->region_id)->name ?? 'NO USER FOUND' }}</td>
 
-                            <td>{{ $location->city }}</td>
+                            <td>{{ $location->name }}</td>
+                            <td> {{$location->type }} </td>
 
                             <td>
-                                <span class="badge 
-                                    {{ $location->status == 'active' ? 'bg-success text-white' : 'bg-danger text-white' }}">
+                                <span class="badge
+                                    {{ $location->status == 'active' ? 'bg-success text-white fs-1' : 'bg-danger text-white fs-1' }}">
                                     {{ ucfirst($location->status) }}
                                 </span>
                             </td>
@@ -301,7 +307,7 @@
                       <div class="d-flex justify-content-center mt-3">
                         {{ $locations->links() }}
                     </div>
-                                        
+
                     </div>
                   </div>
                 </div> <!-- simple table -->
@@ -320,34 +326,47 @@
                     </div>
                     <div class="modal-body p-4">
                     <form action="{{ route('storelocation') }}" method="POST" >
-                         @csrf 
+                         @csrf
+                         <div class="form-group">
+                          <label for="eventTitle" class="col-form-label">Region</label>
+                         <select class="form-control" name="region_id" required>
+                            <option value="">--select region--</option>
+                            @foreach($regions as $region)
+                                <option value="{{ $region->id }}">{{ $region->name }}</option>
+                            @endforeach
+                        </select>
+                        </div>
                          <div class="form-group">
                           <label for="eventTitle" class="col-form-label">Name</label>
-                         <input type="text" class="form-control" name="name" placeholder=" Ee.g Ubungo terminal ..." >
+                         <input type="text" class="form-control" name="name" placeholder=" Ee.g Ubungo terminal ..." required>
                         </div>
                         <div class="form-group">
-                          <label for="eventTitle" class="col-form-label">City</label>
-                         <input type="text" class="form-control" name="city" placeholder=" Enter city number ..." >
+                          <label for="eventTitle" class="col-form-label">Type</label>
+                         <select class="form-control" name="type">
+                            <option value="">--select type--</option>
+                            <option value="city">City</option>
+                            <option value="terminal">Terminal</option>
+                        </select>
                         </div>
-                         <div class="form-row">
-                          <div class="form-group col-md-8">
-                            <label for="eventType">Status</label>
-                          <select class="form-control" name="status"  >
+
+                        <div class="form-group">
+                          <label for="eventTitle" class="col-form-label">Status</label>
+                         <select class="form-control" name="status">
                             <option value="">--select status--</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
-                           
                         </select>
-                          </div>
-                        </div>   
+                        </div>
+
+                        </div>
                        <div class="modal-footer d-flex justify-content-between">
                     <button type="submit" name="submit" id="saveBtn" class="btn btn-primary">
-                           Add Location 
+                           Add Location
                         </button>
                     </div>
                       </form>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>

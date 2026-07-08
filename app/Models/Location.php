@@ -12,17 +12,21 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Location
- * 
+ *
  * @property int $id
+ * @property int|null $region_id
+ * @property int|null $company_id
  * @property string $name
- * @property string $city
+ * @property string $type
  * @property string $status
  * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property User $user
+ * @property Region $region
  * @property Collection|Route[] $routes
+ * @property Collection|Region[] $region
  * @property Collection|TripStop[] $trip_stops
  * @property Collection|Trip[] $trips
  *
@@ -37,9 +41,11 @@ class Location extends Model
 	];
 
 	protected $fillable = [
+        'company_id',
+		'region_id',
 		'name',
-		'city',
 		'status',
+        'type',
 		'created_by'
 	];
 
@@ -47,6 +53,11 @@ class Location extends Model
 	{
 		return $this->belongsTo(User::class, 'created_by');
 	}
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
 
 	public function routes()
 	{

@@ -103,9 +103,13 @@
              <i class="bi bi-geo-alt-fill"></i>
                 <span class="ml-3 item-text">Location</span>
               </a>
+               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="{{ route('region') }}"><span class="ml-1">Region </span></a>
+
+              </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Station </span></a>
-             
+                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Location </span></a>
+
               </ul>
             </li>
            <li class="nav-item dropdown">
@@ -120,7 +124,7 @@
                 {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                 </li> --}}
-               
+
               </ul>
             </li>
           </ul>
@@ -131,7 +135,7 @@
                 <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
-           
+
             <li class="nav-item dropdown">
               <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                <i class="bi bi-credit-card"></i>
@@ -218,13 +222,13 @@
                 <a class="nav-link pl-3" href="./auth-confirm.html"><span class="ml-1">Confirm Password</span></a>
               </ul>
             </li>
-           
+
           </ul>
-       
+
         </nav>
 @endsection
 @section('content')
-    
+
        <main role="main" class="main-content">
         <div class="container-fluid">
           <div class="row justify-content-center">
@@ -237,7 +241,6 @@
               </div>
               <p class="card-text">List of All Trip </p>
 
-
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
@@ -248,7 +251,7 @@
                             <table class="table datatables" id="dataTable-1">
                         <thead>
                           <tr align="center">
-                            
+
                             <th>#</th>
                             <th>Bus Name</th>
                             <th>Route</th>
@@ -273,35 +276,35 @@
                             <td>{{ $trips->firstItem() + $key }}</td>
                             <td>{{ $trip->bus->bus_name ?? '-' }}</td>
                             <td>
-                                {{ $trip->route->fromLocation->name ?? '-' }}
+                                {{ $trip->route->fromRegion->name ?? '-' }}
                                 →
-                                {{ $trip->route->toLocation->name ?? '-' }}
+                                {{ $trip->route->toRegion->name ?? '-' }}
                             </td>
                             <td>{{ $trip->departure_date }}</td>
                             <td>{{ $trip->departure_time }}</td>
                             <td> {{ $trip->arrival_time }} </td>
-                            <td>{{ $trip->boardingPoint->name ?? '-' }}</td>       
-                            <td>{{ $trip->droppingPoint->name ?? '-' }}</td>    
-                            
+                            <td>{{ $trip->boardingPoint->name ?? '-' }}</td>
+                            <td>{{ $trip->droppingPoint->name ?? '-' }}</td>
+
                             <td>{{ $trip->available_seats }}</td>
                             <td>{{ number_format($trip->price) }} TZS</td>
                             <td><strong>{{ $trip->trip_code }}</strong></td>
                              <td>
-                              <span class="badge 
-                               @if($trip->status == 'cancelled') badge-secondary text-white
-                                  @elseif($trip->status == 'scheduled') badge-warning text-white
-                                  @elseif($trip->status == 'completed') badge-success text-white
-                                  @else badge-danger
+                              <span class="badge
+                               @if($trip->status == 'cancelled') badge-secondary text-white fs-1
+                                  @elseif($trip->status == 'scheduled') badge-warning text-white fs-1
+                                  @elseif($trip->status == 'completed') badge-success text-white fs-1
+                                  @else badge-danger fs-1
                                   @endif">
                                     {{ ucfirst($trip->status) }}
                                 </span>
                             </td>
                             <td>
                               <span class="badge
-                                  @if($trip->bus_status == 'waiting') badge-secondary text-white
-                                  @elseif($trip->bus_status == 'boarding') badge-warning text-white
-                                  @elseif($trip->bus_status == 'departed') badge-primary text-white
-                                  @elseif($trip->bus_status == 'arrived') badge-success text-white
+                                  @if($trip->bus_status == 'waiting') badge-secondary text-white fs-1
+                                  @elseif($trip->bus_status == 'boarding') badge-warning text-white fs-1
+                                  @elseif($trip->bus_status == 'departed') badge-primary text-white fs-1
+                                  @elseif($trip->bus_status == 'arrived') badge-success text-white fs-1
                                   @else badge-danger
                                   @endif
                               ">
@@ -309,13 +312,32 @@
                               </span>
                           </td>
                             <td>{{ optional($trip->creator)->name}}</td>
+
+                              {{--  <td>
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+
+                                        <form id="delete-form-{{ $trip->id }}"
+                                            action="{{ route('routedelete', $route->id) }}"
+                                            method="POST" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+
+                                        <button class="btn btn-danger btn-sm mx-4"
+                                                onclick="confirmDelete({{ $trip->id }})">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>  --}}
                             <td>
                                 <div class="d-flex justify-content-center gap-1">
-                                    <button class="btn btn-info btn-sm">
-                                        <i class="fe fe-eye"></i>
+                                    <button class="btn btn-primary btn-sm mx-4">Edit</button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash3-fill"></i>
                                     </button>
 
-                                    <button class="btn btn-primary btn-sm mx-4">Edit</button>
+
                                 </div>
                             </td>
 
@@ -328,7 +350,7 @@
                         </tr>
                         @endforelse
                         </tbody>
-                    
+
                       </table>
                       {{ $trips->links() }}
                     </div>
@@ -350,107 +372,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-4">
-                    <form action="{{ route('addtrip') }}" method="POST">
-                            @csrf
-
-                            <!-- BUS -->
-                            <div class="form-group">
-                                <label>Bus</label>
-                                <select class="form-control" name="bus_id" required>
-                                    <option value="">-- Select Bus --</option>
-                                    @foreach($buses as $bus)
-                                        <option value="{{ $bus->id }}">
-                                            {{ $bus->bus_name }} ({{ $bus->bus_number }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- ROUTE -->
-                            <div class="form-group">
-                                <label>Route</label>
-                                <select class="form-control" name="route_id" required>
-                                    <option value="">-- Select Route --</option>
-                                    @foreach($routes as $route)
-                                        <option value="{{ $route->id }}">
-                                            {{ $route->fromLocation->name ?? '' }}
-                                            →
-                                            {{ $route->toLocation->name ?? '' }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- DEPARTURE DATE -->
-                            <div class="form-group">
-                                <label>Departure Date</label>
-                                <input type="date" class="form-control" name="departure_date"  min="{{ date('Y-m-d') }}" required>
-                            </div>
-
-                            <!-- DEPARTURE TIME -->
-                            <div class="form-group">
-                                <label>Departure Time</label>
-                                <input type="time" class="form-control" name="departure_time" required>
-                            </div>
-
-                            <!-- ARRIVAL TIME -->
-                            <div class="form-group">
-                                <label>Arrival Time</label>
-                                <input type="time" class="form-control" name="arrival_time" required>
-                            </div>
-
-                            <!-- Pick up  POINT -->
-                            <div class="form-group">
-                                <label>Pick up Point</label>
-                                <select class="form-control" name="boarding_point_id">
-                                    <option value="">-- Select Boarding --</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}">
-                                            {{ $location->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- DROPPING POINT -->
-                            <div class="form-group">
-                                <label>Dropping Point</label>
-                                <select class="form-control" name="dropping_point_id">
-                                    <option value="">-- Select Dropping --</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}">
-                                            {{ $location->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- PRICE -->
-                            <div class="form-group">
-                                <label>Price (TZS)</label>
-                                <input type="number" class="form-control" name="price" required>
-                            </div>
-
-                            <!-- STATUS (OPTIONAL) -->
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select class="form-control" name="trip_status">
-                                    <option value="scheduled">Scheduled</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </div>
-
-                            <!-- SUBMIT -->
-                            <div class="modal-footer d-flex justify-content-between">
-                                <button type="submit" class="btn btn-primary">
-                                    Create Trip
-                                </button>
-                            </div>
-
-                        </form>
+                   <livewire:trip-form />
                     </div>
-                    
+
                   </div>
                 </div>
               </div>

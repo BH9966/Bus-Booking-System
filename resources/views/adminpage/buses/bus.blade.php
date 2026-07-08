@@ -1,3 +1,4 @@
+
 @extends('adminpage.layout')
 @section('content')
     <main role="main" class="main-content">
@@ -39,16 +40,16 @@
                     @forelse($buses as $key => $bus)
                         <tr align="center">
 
-                         
+
                             <td>
-                                <img 
-                                    src="{{ $bus->image ? asset($bus->image) : asset('default/bus.jpg') }}" 
+                                <img
+                                    src="{{ $bus->image ? asset($bus->image) : asset('default/bus.jpg') }}"
                                     alt="Bus Image"
                                     class="rounded-circle"
                                     style=" width: 45px; height: 45px; object-fit: cover; border: 2px solid #ddd;" >
                             </td>
 
-                            
+
                             <td>{{ $buses->firstItem() + $key }}</td>
                              <td>{{ $bus->bus_name }}</td>
                             <td>{{ $bus->bus_number }}</td>
@@ -57,20 +58,20 @@
                             <td>{{ $bus->capacity }}</td>
                             <td>{{ $bus->model ?? '-' }}</td>
                             <td>
-                                <span class="badge 
-                                    @if($bus->bus_status == 'active') bg-success text-white
-                                    @elseif($bus->bus_status == 'maintenance') bg-warning text-white
-                                    @else bg-danger text-white
+                                <span class="badge
+                                    @if($bus->bus_status == 'active') bg-success text-white fs-1
+                                    @elseif($bus->bus_status == 'maintenance') bg-warning text-white fs-1
+                                    @else bg-danger text-white fs-1
                                     @endif
                                 ">
                                     {{ ucfirst($bus->bus_status) }}
                                 </span>
                             </td>
 
-                            
+
                             <td>{{ $bus->company->company_name ?? '-' }}</td>
 
-                        
+
                             <td>{{ $bus->creator->name ?? '-' }}</td>
 
                             <td>
@@ -78,9 +79,9 @@
 
                                     <button class="btn btn-primary btn-sm">Edit</button>
 
-                                    <form id="delete-form-{{ $bus->id }}" 
-                                        action="{{ route('busdelete', $bus->id) }}" 
-                                        method="POST" 
+                                    <form id="delete-form-{{ $bus->id }}"
+                                        action="{{ route('busdelete', $bus->id) }}"
+                                        method="POST"
                                         style="display:none;">
                                         @csrf
                                         @method('DELETE')
@@ -124,7 +125,7 @@
                     </div>
                     <div class="modal-body p-4">
                     <form action="{{ route('adminAddbus') }}" method="POST" enctype="multipart/form-data">
-                         @csrf 
+                         @csrf
                          <div class="form-group">
                           <label for="eventTitle" class="col-form-label">Bus Name</label>
                          <input type="text" class="form-control" name="bus_name" placeholder=" Enter Bus name ..." required>
@@ -156,7 +157,7 @@
                           <label for="eventNote" class="col-form-label">Model</label>
                         <input type="text" class="form-control" name="model" placeholder=" e.g Scania 2022, Toyota Coaster" >
                         </div>
-                       
+
                        <div class="form-group">
                             <label class="col-form-label">Bus image (optional) </label>
                              <input type="file" class="form-control" name="imagePath" accept="image/*">
@@ -172,15 +173,15 @@
                             </select>
                           </div>
                         </div>
-                       
+
                        <div class="modal-footer d-flex justify-content-between">
                     <button type="submit" name="submit" id="saveBtn" class="btn btn-primary">
-                           Add Bus 
+                           Add Bus
                         </button>
                     </div>
                       </form>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
@@ -202,7 +203,7 @@
           </div>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item ">
-              <a href="{{ route('dashboard_superadmin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+              <a href="{{ route('dashboard_admin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
                 <i class="fe fe-home fe-16"></i>
                 <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
               </a>
@@ -290,9 +291,13 @@
              <i class="bi bi-geo-alt-fill"></i>
                 <span class="ml-3 item-text">Location</span>
               </a>
+               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="{{ route('region') }}"><span class="ml-1">Region </span></a>
+
+              </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Station </span></a>
-             
+                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Location </span></a>
+
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -307,7 +312,7 @@
                 {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                 </li> --}}
-               
+
               </ul>
             </li>
           </ul>
@@ -318,7 +323,7 @@
                 <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
-           
+
             <li class="nav-item dropdown">
               <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                <i class="bi bi-credit-card"></i>
@@ -405,8 +410,8 @@
                 <a class="nav-link pl-3" href="./auth-confirm.html"><span class="ml-1">Confirm Password</span></a>
               </ul>
             </li>
-           
+
           </ul>
-       
+
         </nav>
 @endsection

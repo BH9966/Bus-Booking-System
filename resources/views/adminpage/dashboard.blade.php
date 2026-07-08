@@ -17,7 +17,7 @@
                         <div class="col pr-0">
                           <p class="small text-white mb-0">Total Buses</p>
                           <span class="h3 mb-0 text-white">$1250</span>
-                        
+
                         </div>
                       </div>
                     </div>
@@ -323,7 +323,7 @@
             </div>
           </div>
         </div>
-      </main> 
+      </main>
 @endsection
 @section('vertical_nav')
 <nav class="vertnav navbar navbar-light">
@@ -341,7 +341,7 @@
           </div>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item ">
-              <a href="{{ route('dashboard_superadmin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+              <a href="{{ route('dashboard_admin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
                 <i class="fe fe-home fe-16"></i>
                 <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
               </a>
@@ -429,9 +429,13 @@
                <i class="bi bi-geo-alt-fill"></i>
                 <span class="ml-3 item-text">Location</span>
               </a>
+               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="{{ route('region') }}"><span class="ml-1">Region </span></a>
+
+              </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Stations</span></a>
-             
+                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Locations</span></a>
+
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -446,7 +450,7 @@
                 {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                 </li> --}}
-               
+
               </ul>
             </li>
           </ul>
@@ -457,7 +461,7 @@
                 <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
-           
+
             <li class="nav-item dropdown">
               <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                <i class="bi bi-credit-card"></i>
@@ -544,9 +548,9 @@
                 <a class="nav-link pl-3" href="./auth-confirm.html"><span class="ml-1">Confirm Password</span></a>
               </ul>
             </li>
-           
+
           </ul>
-       
+
         </nav>
-  
+
 @endsection

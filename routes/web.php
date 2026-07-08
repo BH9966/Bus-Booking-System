@@ -26,7 +26,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::delete('/user/{id}',[SuperdminController::class , 'deleteUser'])->name('userdelete');
         Route::post('/addd-company',[SuperdminController::class, 'addCompany'])->name('add_company');
         Route::delete('/company/{id}',[SuperdminController::class , 'deleteCompany'])->name('deleteCompany');
-    
+
     });
 
     Route::middleware('role:admin')->prefix('admin')->group(function () {
@@ -38,6 +38,9 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::post('seat',[AdminController::class, 'addSeat'])->name('addseat');
         Route::delete('seat/{id}',[AdminController::class , 'deleteseat'])->name('deleteseat');
         Route::get('/location',[AdminController::class , 'viewlocation'])->name('viewlocation');
+        Route::get('/region',[AdminController::class , 'viewregion'])->name('region');
+        Route::post('/addregion',[AdminController::class ,'storeRegion'])->name('storeregion');
+        Route::delete('/deleteregion/{id}',[AdminController::class , 'deleteregion'])->name('regiondelete');
         Route::post('/addlocation',[AdminController::class ,'storeLocation'])->name('storelocation');
         Route::delete('/deletelocation/{id}',[AdminController::class , 'deletelocation'])->name('locationdelete');
         Route::get('/roots',[AdminController::class , 'viewroots'])->name('viewroute');

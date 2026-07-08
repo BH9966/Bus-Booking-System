@@ -7,6 +7,7 @@ use App\Models\Bus;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Location;
+use App\Models\Region;
 use App\Models\Seat;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Route;
@@ -20,8 +21,13 @@ class AdminController extends Controller
     }
     public function showBuses()
     {
-        $buses= Bus::with(['company','creator'])->paginate(10);
-        return view('adminpage.buses.bus',compact('buses'));
+        $companyId = Auth::user()->company_id;
+
+        $buses = Bus::with(['company','creator'])
+        ->where('company_id', $companyId)
+        ->paginate(10);
+
+    return view('adminpage.buses.bus', compact('buses'));
     }
     public function addBus(Request $request)
     {
@@ -59,7 +65,7 @@ class AdminController extends Controller
             'created_by'   => Auth::id(),
         ]);
         return back()->with('success', 'Bus created successfully');
-    
+
     }
     public function deleteBus( int $id)
 
@@ -90,7 +96,7 @@ class AdminController extends Controller
 
     public function addSeat(Request $request)
     {
-         
+
     $validator = Validator::make($request->all(), [
     'bus_id'      => 'required|exists:buses,id',
     'seat_number' => 'required|string|max:10',
@@ -113,7 +119,7 @@ class AdminController extends Controller
             ->with('errors', 'Unauthorized bus selection.');
     }
 
-    
+
     $exists = Seat::where('bus_id', $bus->id)
                   ->where('seat_number', $request->seat_number)
                   ->exists();
@@ -134,14 +140,6 @@ class AdminController extends Controller
     return redirect()->back()
         ->with('success', 'Seat added successfully.');
     }
-    public function viewlocation()
-    {
-         $locations= Location::with(['creator'])->paginate(10);
-        return view('adminpage.location.location',compact('locations'));
-    }
-
-
-
     public function deleteseat(int $id)
     {
         $seat = Seat::findOrFail($id);
@@ -149,31 +147,45 @@ class AdminController extends Controller
 
     return redirect()->back()->with('success', 'Seat deleted successfully!');
     }
+    public function viewlocation()
+    {
+         $companyId = Auth::user()->company_id;
+
+      $locations = Location::with(['creator','region'])
+        ->where('company_id', $companyId)
+        ->paginate(10);
+
+    $regions = Region::orderBy('name', 'asc')->get();
+
+    return view('adminpage.Location.location', compact('locations','regions'));
+    }
+
+
     public function storeLocation(Request $request )
     {
 
 
     if (
         empty($request->name) ||
-        empty($request->city)
+        empty($request->region_id)
     ) {
-        return back()->with('errors', 'Station name and city are required');
+        return back()->with('errors', 'Region name and city are required');
     }
 
 
     $name = strtolower(trim($request->name));
-    $city = strtolower(trim($request->city));
+    $region_id = $request->region_id;
 
- 
-    $exists = Location::whereRaw('LOWER(name) = ?', [$name])
-        ->whereRaw('LOWER(city) = ?', [$city])
+
+    $exists = Location::whereRaw('LOWER(name) = ?', [$name], 'and')
+        ->where('region_id', $region_id)
         ->first();
 
     if ($exists) {
         return back()->with('errors', 'This station already exists');
     }
 
-   
+
     // $exists = Location::where('company_id', Auth::user()->company_id)
     //     ->where('name', $request->name)
     //     ->first();
@@ -182,11 +194,12 @@ class AdminController extends Controller
     //     return back()->with('errors', 'Station already exists');
     // }
 
-    
+
     Location::create([
         'company_id' => Auth::user()->company_id,
         'name'       => $request->name,
-        'city'       => $request->city,
+        'region_id'  => $request->region_id,
+        'type'      => $request->type,
         'status'     => $request->status ?? 'active',
         'created_by' => Auth::id(),
     ]);
@@ -202,51 +215,108 @@ class AdminController extends Controller
     return redirect()->back()->with('success', 'Location deleted successfully!');
     }
 
+    public function viewregion()
+    {
+        $companyId = Auth::user()->company_id;
+        $regions = Region::orderBy('name', 'asc')
+        ->where('company_id', $companyId)->paginate(10);
+
+        return view('adminpage.Location.region', compact('regions'));
+    }
+
+
+    public function storeRegion(Request $request)
+    {
+        if (empty($request->name)) {
+            return back()->with('errors', 'Region name is required');
+        }
+
+        $name = strtolower(trim($request->name));
+
+        $exists = Region::whereRaw('LOWER(name) = ?', [$name], 'and')->first();
+
+        if ($exists) {
+            return redirect()->back()->with('errors', 'This region already exists');
+        }
+
+        Region::create([
+
+            'name'       => $request->name,
+            'status'     => $request->status ?? 'active',
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Region created successfully');
+    }
+    public function deleteregion(int $id)
+    {
+         $region = Region::findOrFail($id);
+         $region->delete();
+
+    return redirect()->back()->with('success', 'Region deleted successfully!');
+    }
     public function viewroots()
     {
-         $routes = Route::with(['fromLocation', 'toLocation', 'creator'])  ->paginate(10);
 
-         $locations = Location::all(); 
+         $routes = Route::with([
+        'fromLocation.region',
+          'toLocation.region','fromRegion','toRegion','creator'
+       ])->where('company_id', Auth::user()->company_id)->paginate(10);
 
-    return view('adminpage.roots.root', compact('routes', 'locations'));;
+       $regions = Region::query()
+           ->where('status', '=', 'active')
+           ->get();
+
+        return view('adminpage.roots.root', compact('routes', 'regions'));
     }
 
 
     public function storeRoute(Request $request)
 {
-   
     if (
-        empty($request->from_location_id) ||
-        empty($request->to_location_id) ||
+        empty($request->from_region_id) ||
+        empty($request->to_region_id) ||
         empty($request->distance_km) ||
         empty($request->estimated_duration)
     ) {
         return back()->with('errors', 'All fields are required');
     }
 
-    
-    if ($request->from_location_id == $request->to_location_id) {
+
+    if ($request->from_region_id == $request->to_region_id) {
         return back()->with('errors', 'From and To stations must be different');
     }
 
-    // 3. Check duplicate route
-    // $exists = Route::where('company_id', Auth::user()->company_id)
-    //     ->where('from_location_id', $request->from_location_id)
-    //     ->where('to_location_id', $request->to_location_id)
-    //     ->first();
 
-    // if ($exists) {
-    //     return back()->with('errors', 'Route already exists');
-    // }
+//    $exists = \App\Models\Route::query()
+//     ->where('from_region_id', $request->from_region_id)
+//     ->where('to_region_id', $request->to_region_id)
+//     ->exists();
+
+$exists = \App\Models\Route::query()
+    ->where(function ($query) use ($request) {
+        $query->where('from_region_id', $request->from_region_id)
+              ->where('to_region_id', $request->to_region_id);
+    })
+    ->orWhere(function ($query) use ($request) {
+        $query->where('from_region_id', $request->to_region_id)
+              ->where('to_region_id', $request->from_region_id);
+    })
+    ->exists();
+
+if ($exists) {
+    return back()->with('errors', 'Route already exists !!');
+}
 
     // 4. Create route
     Route::create([
-        'from_station_id'     => $request->from_location_id,
-        'to_station_id'       => $request->to_location_id,
-        'distance_km'          => $request->distance_km,
-        'estimated_duration'   => $request->estimated_duration,
-        'status'               => $request->status ?? 'active',
-        'created_by'           => Auth::id(),
+        'company_id' => Auth::user()->company_id,
+        'from_region_id' => $request->from_region_id,
+        'to_region_id'   => $request->to_region_id,
+        'distance_km'         => $request->distance_km,
+        'estimated_duration'  => $request->estimated_duration,
+        'status'              => $request->status ?? 'active',
+        'created_by'          => Auth::id(),
     ]);
 
     return back()->with('success', 'Route created successfully');
@@ -262,33 +332,64 @@ class AdminController extends Controller
     }
     public function viewtrip()
     {
+
+
         $companyId = Auth::user()->company_id;
 
-    $buses = Bus::where('company_id', $companyId)
-        ->where('bus_status', 'active')
-        ->get();
 
-    $routes = Route::with(['fromLocation', 'toLocation'])
-        ->where('status', 'active')
-        ->get();
+        $trips = Trip::with([
+    'bus',
+    'route.fromLocation',
+    'route.toLocation',
+    'boardingPoint',
+    'droppingPoint',
+    'creator',
+])
+->where('company_id', $companyId)
+->paginate(10);
 
-    $locations = Location::where('status', 'active')->get();
+$buses = Bus::where('company_id', $companyId)
+    ->where('bus_status', 'active')
+    ->get();
 
-    $trips = Trip::with(['bus', 'route','creator'])
-        ->where('company_id', $companyId)
-        ->latest()
-        ->paginate(10);
+$routes = Route::with(['fromRegion', 'toRegion'])
+    ->where('company_id', $companyId)
+    ->where('status', 'active')
+    ->get();
 
-    return view('adminpage.trip.trip', compact(
-        'buses',
-        'routes',
-        'locations',
-        'trips'
-    ));
+        return view('adminpage.trip.trip', compact(
+            'trips',
+            'buses',
+            'routes'
+        ));
+
+return view('adminpage.trip.trip');
+
+    // $buses = Bus::where('company_id', $companyId)
+    //     ->where('bus_status', 'active')
+    //     ->get();
+
+    // $routes = Route::with(['fromLocation', 'toLocation'])
+    //     ->where('status', 'active')
+    //     ->get();
+
+    // $locations = Location::where('status', 'active')->get();
+
+    // $trips = Trip::with(['bus', 'route','creator'])
+    //     ->where('company_id', $companyId)
+    //     ->latest()
+    //     ->paginate(10);
+
+    // return view('adminpage.trip.trip', compact(
+    //     'buses',
+    //     'routes',
+    //     'locations',
+    //     'trips'
+    // ));
     }
     public function storeTrip(Request $request)
 {
-  
+
     if (
         empty($request->bus_id) ||
         empty($request->route_id) ||
@@ -302,7 +403,7 @@ class AdminController extends Controller
         return back()->with('errors', 'All fields are required');
     }
 
-   
+
     if ($request->boarding_point_id == $request->dropping_point_id) {
         return back()->with('errors', 'Boarding and dropping points must differ');
     }
@@ -311,28 +412,27 @@ class AdminController extends Controller
     $bus = Bus::where('id', $request->bus_id)
         ->where('company_id', Auth::user()->company_id)
         ->first();
-      
+
     if (!$bus) {
         return back()->with('errors', 'Invalid bus selected');
     }
     // 4. Create trip
-    Trip::create([
-        'company_id'        => Auth::user()->company_id,
-        'bus_id'            => $bus->id,
-        'route_id'          => $request->route_id,
-        'departure_date'    => $request->departure_date,
-        'departure_time'    => $request->departure_time,
-        'arrival_time'      => $request->arrival_time,
-        'boarding_point_id' => $request->boarding_point_id,
-        'dropping_point_id' => $request->dropping_point_id,
-        'price'             => $request->price,
-        'available_seats'   => $bus->capacity,
-        'trip_code'         => 'TRP-' . strtoupper(Str::random(6)),
-        'trip_status'       => 'scheduled',
-        'bus_trip_status'   => 'waiting',
-        'created_by'        => Auth::id(),
-    ]);
-
+   Trip::create([
+    'company_id'        => Auth::user()->company_id,
+    'bus_id'            => $bus->id,
+    'route_id'          => $request->route_id,
+    'departure_date'    => $request->departure_date,
+    'departure_time'    => $request->departure_time,
+    'arrival_time'      => $request->arrival_time,
+    'boarding_point_id' => $request->boarding_point_id,
+    'dropping_point_id' => $request->dropping_point_id,
+    'price'             => $request->price,
+    'available_seats'   => $bus->capacity,
+    'trip_code'         => 'TRP-' . strtoupper(Str::random(6)),
+    'status'            => 'scheduled',
+    'bus_status'        => 'waiting',
+    'created_by'        => Auth::id(),
+]);
     return back()->with('success', 'Trip created successfully');
 }
 

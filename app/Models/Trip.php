@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Trip
- * 
+ *
  * @property int $id
  * @property int $company_id
  * @property int $bus_id
@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * @property int|null $boarding_point_id
  * @property int|null $dropping_point_id
- * 
+ *
  * @property Location|null $location
  * @property Bus $bus
  * @property Company $company
@@ -124,4 +124,15 @@ class Trip extends Model
 	{
 		return $this->hasMany(TripStop::class);
 	}
+
+        public function boardingPoint()
+    {
+        return $this->belongsTo(Location::class, 'boarding_point_id');
+    }
+
+    public function droppingPoint()
+    {
+        return $this->belongsTo(Location::class, 'dropping_point_id');
+    }
+
 }

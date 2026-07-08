@@ -15,7 +15,7 @@
           </div>
           <ul class="navbar-nav flex-fill w-100 mb-2">
             <li class="nav-item ">
-              <a href="{{ route('dashboard_superadmin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
+              <a href="{{ route('dashboard_admin') }}" data-toggle="collapse" aria-expanded="false" class=" nav-link">
                 <i class="fe fe-home fe-16"></i>
                 <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
               </a>
@@ -103,9 +103,13 @@
              <i class="bi bi-geo-alt-fill"></i>
                 <span class="ml-3 item-text">Location</span>
               </a>
+               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+                <a class="nav-link pl-3" href="{{ route('region') }}"><span class="ml-1">Region </span></a>
+
+              </ul>
               <ul class="collapse list-unstyled pl-4 w-100" id="profile">
-                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Station </span></a>
-             
+                <a class="nav-link pl-3" href="{{ route('viewlocation') }}"><span class="ml-1">Location </span></a>
+
               </ul>
             </li>
            <li class="nav-item dropdown">
@@ -120,7 +124,7 @@
                 {{-- <li class="nav-item">
                   <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                 </li> --}}
-               
+
               </ul>
             </li>
           </ul>
@@ -131,7 +135,7 @@
                 <span class="ml-3 item-text">Trip</span>
               </a>
             </li>
-           
+
             <li class="nav-item dropdown">
               <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                <i class="bi bi-credit-card"></i>
@@ -218,9 +222,9 @@
                 <a class="nav-link pl-3" href="./auth-confirm.html"><span class="ml-1">Confirm Password</span></a>
               </ul>
             </li>
-           
+
           </ul>
-       
+
         </nav>
 @endsection
 @section('content')
@@ -244,7 +248,7 @@
                       <table class="table datatables" id="dataTable-1">
                         <thead>
                           <tr align="center">
-                
+
                             <th>#</th>
                             <th>From</th>
                             <th>To</th>
@@ -261,17 +265,24 @@
 
                                 <td>{{ $routes->firstItem() + $key }}</td>
 
-                                <td>{{ $route->fromLocation->name ?? '-' }}</td>
+                               <td>
 
-                                <td>{{ $route->toLocation->name ?? '-' }}</td>
+                                    {{ $route->fromRegion->name ?? '-' }}
+                                     {{-- {{  dd($route->fromLocation) }} --}}
+                                    </td>
+
+                                    <td>
+                                        {{-- {{ \App\Models\Region::find($route->toLocation->region_id)->name ?? 'NO USER FOUND' }} --}}
+                                    {{  $route->toRegion->name ?? '-' }}
+                                    </td>
 
                                 <td>{{ $route->distance_km }} KM</td>
 
-                                <td>{{ $route->estimated_duration }}</td>
+                                <td>{{ $route->estimated_duration }} hours</td>
 
                                 <td>
-                                    <span class="badge 
-                                        {{ $route->status == 'active' ? 'bg-success' : 'bg-danger' }}">
+                                    <span class="badge
+                                        {{ $route->status == 'active' ? 'bg-success fs-1 text-white' : 'bg-danger fs-1 text-white' }}">
                                         {{ ucfirst($route->status) }}
                                     </span>
                                 </td>
@@ -306,7 +317,7 @@
                             </tbody>
                       </table>
                       {{ $routes->links() }}
-                    
+
                     </div>
                   </div>
                 </div> <!-- simple table -->
@@ -330,39 +341,35 @@
                             <!-- FROM -->
                             <div class="form-group">
                                 <label>FROM</label>
-                                <select class="form-control" name="from_location_id" required>
-                                    <option value="">-- Select Origin --</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}">
-                                            {{ $location->name }} ({{ $location->city }})
-                                        </option>
-                                    @endforeach
-                                </select>
+                               <select name="from_region_id" class="form-control" required>
+                                <option value="">-- Select Origin Region --</option>
+                                @foreach($regions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
+                            </select>
                             </div>
 
                             <!-- TO -->
                             <div class="form-group">
                                 <label>TO</label>
-                                <select class="form-control" name="to_location_id" required>
-                                    <option value="">-- Select Destination --</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}" class="d-flex justify-content-between">
-                                           <div class="text-red">{{ $location->name }}</div>  <div class="text-red">({{ $location->city }})</div> 
-                                        </option>
-                                    @endforeach
-                                </select>
+                              <select name="to_region_id" class="form-control" required>
+                                <option value="">-- Select Destination Region --</option>
+                                @foreach($regions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
+                            </select>
                             </div>
 
                             <!-- Distance -->
                             <div class="form-group">
                                 <label>Distance (KM)</label>
-                                <input type="number" class="form-control" name="distance_km">
+                                <input type="number" class="form-control" name="distance_km" min="0" step="0.1" placeholder="Enter distance in kilometers">
                             </div>
 
                             <!-- Duration -->
                             <div class="form-group">
                                 <label>Estimated Duration</label>
-                                <input type="text" class="form-control" name="estimated_duration">
+                                <input type="number" class="form-control" name="estimated_duration" min="0" step="0.1" placeholder="Enter duration in hours">
                             </div>
 
                             <!-- Status -->
@@ -379,7 +386,7 @@
                             </button>
                         </form>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
