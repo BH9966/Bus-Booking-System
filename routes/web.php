@@ -1,18 +1,23 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SuperdminController;
 use App\Http\Controllers\verify;
+use App\Http\Controllers\PassengerDetailsController;
+use App\Http\Controllers\Dashboard\SearchBus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
 Route::get('/', function () {
     return view('booking_pages.layout');
 })->name('home');
 
 Route::get('/login',[verify::class ,'login'])->name('login');
 Route::post('/logout', [verify::class, 'destroy'])->name('logout');
+Route::get('/bus-results/{from}/{to}/{date}',[SearchBus::class, 'index'])->name('search_bus');
+Route::get('/pickup/dropout',[BookingController::class, 'passengerview'])->name('passenger_view');
+Route::get('/passenger-details', [PassengerDetailsController::class, 'index'])->name('passenger.details');
+Route::post( '/booking/release-reservation', [ BookingController::class, 'releaseSeatReservation' ])->name('booking.releaseReservation');
 
 
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {

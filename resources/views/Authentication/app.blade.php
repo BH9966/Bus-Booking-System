@@ -25,13 +25,14 @@
   .hero-bg {
     width: 30%;
     height: 100vh;
-    background-image: linear-gradient(to top, rgba(179, 176, 176, 0.603), transparent), 
-                      url("{{ asset('image/Ultimate Travel Checklist for Stress-Free Trips.jpg') }}");
+    background-image: url("{{ asset('image/Fly Nonstop to New Jersey for as Low as $39!.jpg') }}");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
   }
 
+  {{--  linear-gradient(to top, rgba(179, 176, 176, 0.603), transparent),  --}}
   /* Animated orbs */
   .orb {
     position: absolute;

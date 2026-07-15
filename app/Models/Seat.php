@@ -35,15 +35,34 @@ class Seat extends Model
 	protected $table = 'seats';
 
 	protected $casts = [
-		'bus_id' => 'int'
-	];
 
-	protected $fillable = [
-		'bus_id',
-		'seat_number',
-		'status',
-		'seat_type'
-	];
+    'bus_id'=>'integer',
+
+    'seat_position'=>'integer',
+
+    'layout_column'=>'integer',
+
+];
+
+protected $fillable = [
+
+    'bus_id',
+
+    'seat_number',
+
+    'row_letter',
+
+    'seat_position',
+
+    'layout_column',
+
+    'seat_side',
+
+    'status',
+
+    'seat_type',
+
+];
 
 	public function bus()
 	{

@@ -41,16 +41,16 @@ class SeatLock extends Model
 		'locked_until' => 'datetime'
 	];
 
-	protected $fillable = [
-		'seat_id',
-		'trip_id',
-		'user_id',
-		'session_id',
-		'locked_until',
-		'ip_address',
-		'device_info',
-		'status'
-	];
+	  protected $fillable = [
+    'seat_id',
+    'trip_id',
+    'user_id',
+    'reservation_token',
+    'locked_until',
+    'ip_address',
+    'device_info',
+    'status'
+];
 
 	public function seat()
 	{

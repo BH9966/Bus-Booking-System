@@ -27,7 +27,8 @@
                             <th>Bus Namber</th>
                             <th>Plate Number</th>
                             <th>Bus type</th>
-                            <th>Capacity </th>
+                            <th>Layout</th>
+                           <th>Capacity</th>
                             <th>Model </th>
                             <th>Status</th>
                             <th>Comapny</th>
@@ -55,7 +56,14 @@
                             <td>{{ $bus->bus_number }}</td>
                             <td>{{ $bus->plate_number }}</td>
                             <td>{{ ucfirst($bus->bus_type) }}</td>
-                            <td>{{ $bus->capacity }}</td>
+                              <td>
+                                {{ $bus->left_seats }} × {{ $bus->right_seats }}
+                            </td>
+
+                            <td>
+                                {{ $bus->capacity }}
+                            </td>
+                            
                             <td>{{ $bus->model ?? '-' }}</td>
                             <td>
                                 <span class="badge
@@ -149,10 +157,49 @@
                         </select>
                           </div>
                         </div>
-                        <div class="form-group">
-                          <label for="eventTitle" class="col-form-label">Capacity</label>
-                       <input type="number" min="0.0" class="form-control" name="capacity">
+                        <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label>Left Seats</label>
+                            <select class="form-control" name="left_seats" required>
+                                <option value="">--Select--</option>
+                                <option value="1">1 Seat</option>
+                                <option value="2">2 Seats</option>
+                                <option value="3">3 Seats</option>
+                            </select>
+                            <small class="text-muted">
+                                Seats on the left side of each row.
+                            </small>
                         </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Right Seats</label>
+                            <select class="form-control" name="right_seats" required>
+                                <option value="">--Select--</option>
+                                <option value="1">1 Seat</option>
+                                <option value="2">2 Seats</option>
+                                <option value="3">3 Seats</option>
+                            </select>
+                            <small class="text-muted">
+                                Seats on the right side of each row.
+                            </small>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Total Rows</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="total_rows"
+                                min="1"
+                                placeholder="Example: 14"
+                                required>
+                            <small class="text-muted">
+                                Number of seat rows.
+                            </small>
+                        </div>
+
+                    </div>
                         <div class="form-group">
                           <label for="eventNote" class="col-form-label">Model</label>
                         <input type="text" class="form-control" name="model" placeholder=" e.g Scania 2022, Toyota Coaster" >

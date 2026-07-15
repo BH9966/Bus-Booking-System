@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\SeatGenerator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,24 +40,39 @@ class Bus extends Model
 	protected $table = 'buses';
 
 	protected $casts = [
-		'company_id' => 'int',
-		'capacity' => 'int',
-		'created_by' => 'int'
-	];
+    'company_id' => 'int',
+    'left_seats' => 'int',
+    'right_seats' => 'int',
+    'total_rows' => 'int',
+    'capacity' => 'int',
+    'created_by' => 'int',
+];
 
 	protected $fillable = [
-		'company_id',
-		'bus_number',
-		'plate_number',
-		'model',
-		'bus_type',
-		'capacity',
-		'bus_status',
-		'image',
-		'created_by',
-		'bus_name'
-	];
+    'company_id',
+    'bus_number',
+    'plate_number',
+    'model',
+    'bus_type',
+    'left_seats',
+    'right_seats',
+    'total_rows',
+    'capacity',
+    'bus_status',
+    'image',
+    'created_by',
+    'bus_name',
+];
 
+
+  protected static function booted()
+    {
+        static::created(function ($bus) {
+
+            SeatGenerator::generate($bus);
+
+        });
+    }
 	public function company()
 	{
 		return $this->belongsTo(Company::class);

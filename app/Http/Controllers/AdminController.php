@@ -20,53 +20,87 @@ class AdminController extends Controller
         return view('adminpage.dashboard');
     }
     public function showBuses()
-    {
-        $companyId = Auth::user()->company_id;
+{
+    $companyId = Auth::user()->company_id;
 
-        $buses = Bus::with(['company','creator'])
+    $buses = Bus::with(['company', 'creator'])
         ->where('company_id', $companyId)
+        ->latest()
         ->paginate(10);
 
     return view('adminpage.buses.bus', compact('buses'));
+}
+
+public function addBus(Request $request)
+{
+    $request->validate([
+        'bus_name'      => 'required|string|max:100',
+        'bus_number'    => 'required|string|max:50|unique:buses,bus_number',
+        'plate_number'  => 'required|string|max:50|unique:buses,plate_number',
+        'model'         => 'nullable|string|max:100',
+        'bus_type'      => 'required|string|max:50',
+
+        'left_seats'    => 'required|integer|min:1|max:5',
+        'right_seats'   => 'required|integer|min:1|max:5',
+        'total_rows'    => 'required|integer|min:1|max:30',
+
+        'bus_status'    => 'required|in:active,inactive,maintenance',
+        'imagePath'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    if (!Auth::user()->company_id) {
+        return back()->with('errors', 'User is not assigned to any company.');
     }
-    public function addBus(Request $request)
-    {
-        $existsBusNumber = Bus::where('bus_number', $request->bus_number)->first();
-        if ($existsBusNumber) {
-            return back()->with('errors', 'Bus number already exists');
-        }
 
-        $existsPlate = Bus::where('plate_number', $request->plate_number)->first();
-        if ($existsPlate) {
-            return back()->with('errors', 'Plate number already exists');
-        }
-        $imagePath = null;
+    $imagePath = null;
 
-        if ($request->hasFile('imagePath')) {
-            $file = $request->file('imagePath');
-            $fileName = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('uploads/buses'), $fileName);
-            $imagePath = 'uploads/buses/'.$fileName;
-        }
-          if (!Auth::user()->company_id) {
-           return back()->with('errors', 'User is not assigned to any company');
-         }
-          $companyId = Auth::user()->company_id;
-            Bus::create([
-            'company_id'   => $companyId,
-            'bus_name' =>$request->bus_name,
-            'bus_number'   => $request->bus_number,
-            'plate_number' => $request->plate_number,
-            'model'        => $request->model,
-            'bus_type'     => $request->bus_type,
-            'capacity'     => $request->capacity,
-            'bus_status'   => $request->bus_status ?? 'active',
-            'image'        => $imagePath,
-            'created_by'   => Auth::id(),
-        ]);
-        return back()->with('success', 'Bus created successfully');
+    if ($request->hasFile('imagePath')) {
 
+        $file = $request->file('imagePath');
+
+        $fileName = time().'_'.$file->getClientOriginalName();
+
+        $file->move(public_path('uploads/buses'), $fileName);
+
+        $imagePath = 'uploads/buses/'.$fileName;
     }
+
+   
+    $capacity = ($request->left_seats + $request->right_seats) * $request->total_rows;
+
+    Bus::create([
+
+        'company_id'   => Auth::user()->company_id,
+
+        'bus_name'     => $request->bus_name,
+
+        'bus_number'   => $request->bus_number,
+
+        'plate_number' => $request->plate_number,
+
+        'model'        => $request->model,
+
+        'bus_type'     => $request->bus_type,
+
+        'left_seats'   => $request->left_seats,
+
+        'right_seats'  => $request->right_seats,
+
+        'total_rows'   => $request->total_rows,
+
+        'capacity'     => $capacity,
+
+        'bus_status'   => $request->bus_status,
+
+        'image'        => $imagePath,
+
+        'created_by'   => Auth::id(),
+    ]);
+
+    
+
+    return back()->with('success', 'Bus created successfully.');
+}
     public function deleteBus( int $id)
 
     {
@@ -435,6 +469,8 @@ return view('adminpage.trip.trip');
 ]);
     return back()->with('success', 'Trip created successfully');
 }
+
+
 
 
 }

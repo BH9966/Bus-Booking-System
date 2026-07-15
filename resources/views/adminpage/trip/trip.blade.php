@@ -360,8 +360,8 @@
             <div class="modal-content border-0 shadow-lg rounded-xl" style="border-radius: 0.75rem; overflow: hidden;">
                 <div class="modal-header bg-light border-bottom px-4 py-3 align-items-center">
                     <div class="d-flex align-items-center">
-                        <i class="bi bi-plus-circle text-primary fs-5 me-2"></i>
-                        <h5 class="modal-title fw-bold text-dark mb-0" id="eventModalLabel">Create Dispatch Trip</h5>
+                      
+                        <h5 class="modal-title fw-bold text-dark mb-0" id="eventModalLabel">Create New Trip </h5>
                     </div>
                     <button type="button" class="btn-close shadow-none border-0" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

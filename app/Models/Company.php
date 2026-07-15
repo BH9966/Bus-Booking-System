@@ -50,7 +50,7 @@ class Company extends Model
 		'created_by'
 	];
 
-	public function user()
+	public function owner()
 	{
 		return $this->belongsTo(User::class, 'owner_user_id');
 	}
@@ -65,8 +65,8 @@ class Company extends Model
 		return $this->hasMany(Trip::class);
 	}
 
-	public function users()
+	public function creator()
 	{
-		return $this->hasMany(User::class);
+		return $this->hasMany(User::class, 'created_by');
 	}
 }
